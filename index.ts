@@ -1,7 +1,7 @@
 require('isomorphic-form-data');
 import { ICreateVehicleInspection } from './types/vehicle';
 import _axios from './http/_axios';
-import { AxiosError, AxiosResponse } from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import {
   ICreateInspectionOutput,
   IFinishInspection,
@@ -50,7 +50,7 @@ class HTTPClient {
    * @return {Promise} - Returns a Promise that, when fulfilled, will either return an JSON Object with the requested
    * data or an Error with the problem.
    */
-  makeRequest(input: IMakeRequest): Promise<any> {
+  public makeRequest(input: IMakeRequest): Promise<any> {
     switch (input.method) {
       case 'GET':
         return _axios
@@ -61,7 +61,8 @@ class HTTPClient {
           })
           .then((res: AxiosResponse<any>) => {
             return res.data;
-          });
+          })
+          .catch((err) => this.handleError(err));
 
       default:
         return _axios
@@ -72,7 +73,20 @@ class HTTPClient {
           })
           .then((res: AxiosResponse<any>) => {
             return res.data;
-          });
+          })
+          .catch((err) => this.handleError(err));
+    }
+  }
+
+  private handleError(err: any) {
+    const isAxiosError = axios.isAxiosError(err);
+
+    if (isAxiosError) {
+      return Promise.reject(err.response?.data);
+    }
+
+    if (!isAxiosError) {
+      return Promise.reject(err);
     }
   }
 }
@@ -81,8 +95,9 @@ class HTTPClient {
  * @classdesc Represents the Autoinspector SDK. It allows the user to make every call to the API with a single function.
  * @class
  */
-export class Autoinspector extends HTTPClient {
+class Autoinspector {
   private version: string = 'v1';
+  private httpClient: HTTPClient;
 
   /**
    * Create Autoinspector SDK.
@@ -91,7 +106,11 @@ export class Autoinspector extends HTTPClient {
    * @param {String} apikey - The apikey for authentication.
    */
   constructor(apikey: string) {
-    super({
+    if (typeof apikey !== 'string') {
+      throw new Error('apikey should be a string.');
+    }
+
+    this.httpClient = new HTTPClient({
       baseURL: process.env.AUTOINSPECTOR_API_BASE_URL || 'https://api.autoinspector.com.ar',
       headers: {
         'x-api-key': apikey,
@@ -99,10 +118,6 @@ export class Autoinspector extends HTTPClient {
       },
       timeout: 10000,
     });
-
-    if (typeof apikey !== 'string') {
-      throw new Error('apikey should be a string.');
-    }
   }
 
   /**
@@ -117,7 +132,7 @@ export class Autoinspector extends HTTPClient {
    * data or an Error with the problem.
    */
   createVehicleInspection(input: ICreateVehicleInspection): Promise<ICreateInspectionOutput> {
-    return this.makeRequest({
+    return this.httpClient.makeRequest({
       method: 'POST',
       path: `/${this.version}/inspection/vehicle`,
       body: input,
@@ -136,7 +151,7 @@ export class Autoinspector extends HTTPClient {
    * data or an Error with the problem.
    */
   createPeopleInspection(input: ICreatePeopleInspection): Promise<ICreateInspectionOutput> {
-    return this.makeRequest({
+    return this.httpClient.makeRequest({
       method: 'POST',
       path: `/${this.version}/inspection/people`,
       body: input,
@@ -155,7 +170,7 @@ export class Autoinspector extends HTTPClient {
    * data or an Error with the problem.
    */
   createMachineryInspection(input: ICreateMachineryInspection): Promise<ICreateInspectionOutput> {
-    return this.makeRequest({
+    return this.httpClient.makeRequest({
       method: 'POST',
       path: `/${this.version}/inspection/machinery`,
       body: input,
@@ -174,7 +189,7 @@ export class Autoinspector extends HTTPClient {
    * data or an Error with the problem.
    */
   createGoodsInspection(input: ICreateGoodsInspection): Promise<ICreateInspectionOutput> {
-    return this.makeRequest({
+    return this.httpClient.makeRequest({
       method: 'POST',
       path: `/${this.version}/inspection/goods`,
       body: input,
@@ -207,7 +222,7 @@ export class Autoinspector extends HTTPClient {
       form.append('date', input.date.toISOString());
     }
 
-    return this.makeRequest({
+    return this.httpClient.makeRequest({
       method: 'POST',
       path: `/${this.version}/inspection/image/${input.inspectionId}/${input.productInspectionItemId}`,
       body: form,
@@ -227,7 +242,7 @@ export class Autoinspector extends HTTPClient {
    * data or an Error with the problem.
    */
   finishInspection(input: IFinishInspection): Promise<IAPISucessResponse> {
-    return this.makeRequest({
+    return this.httpClient.makeRequest({
       method: 'POST',
       path: `/${this.version}/inspection/finish/${input.inspectionId}`,
       body: {},
@@ -242,7 +257,7 @@ export class Autoinspector extends HTTPClient {
    * data or an Error with the problem.
    */
   getInspection(input: IGetInspection): Promise<IInspection> {
-    return this.makeRequest({
+    return this.httpClient.makeRequest({
       method: 'GET',
       path: `/${this.version}/inspection/${input.inspectionId}`,
     });
@@ -259,10 +274,12 @@ export class Autoinspector extends HTTPClient {
    * data or an Error with the problem.
    */
   listInspections(input: Partial<IPagination> = {}): Promise<IPaginationResponse<IInspection[]>> {
-    return this.makeRequest({
+    return this.httpClient.makeRequest({
       method: 'GET',
       path: `/${this.version}/inspection`,
       params: input,
     });
   }
 }
+
+export default Autoinspector;
