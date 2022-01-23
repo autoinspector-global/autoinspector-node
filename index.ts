@@ -16,6 +16,7 @@ import { IUploadImage } from './types/image';
 import { IPagination, IPaginationResponse } from './types/pagination';
 import pkg from './package.json';
 import { IAPISucessResponse } from './types/api';
+import { IAutoinspector } from './types/autoinspector';
 
 /**
  * @classdesc Represents the class that implements some HTTP client third library. It's an extra layer for in case if we need to change the implementation be one hundred percent sure we can do it without problems.
@@ -105,18 +106,18 @@ class Autoinspector {
    * @see {@link https://autoinspector.com.ar/docs/api/start}
    * @param {String} apikey - The apikey for authentication.
    */
-  constructor(apikey: string) {
-    if (typeof apikey !== 'string') {
+  constructor(input: IAutoinspector) {
+    if (typeof input.apikey !== 'string') {
       throw new Error('apikey should be a string.');
     }
 
     this.httpClient = new HTTPClient({
       baseURL: process.env.AUTOINSPECTOR_API_BASE_URL || 'https://api.autoinspector.com.ar',
       headers: {
-        'x-api-key': apikey,
+        'x-api-key': input.apikey,
         'User-Agent': 'autoinspector-node-sdk/' + pkg.version,
       },
-      timeout: 10000,
+      timeout: input.timeout || 80000,
     });
   }
 
