@@ -17,6 +17,24 @@ import { IPagination, IPaginationResponse } from './types/pagination';
 import pkg from './package.json';
 import { IAPISucessResponse } from './types/api';
 import { IAutoinspector } from './types/autoinspector';
+import {
+  IExchangeCodeForAccessToken,
+  IOAuth20Credentials,
+  IRefreshAccessToken,
+} from './types/oauth20';
+import { IAuthenticatedUserListInspections, IListMemberships } from './types/authenticatedUser';
+
+class Helper {
+  static buildOptionalHeaders(accessToken?: string): IHeaders | undefined {
+    if (accessToken) {
+      return {
+        Authorization: `Bearer ${accessToken}`,
+      };
+    }
+
+    return;
+  }
+}
 
 /**
  * @classdesc Represents the class that implements some HTTP client third library. It's an extra layer for in case if we need to change the implementation be one hundred percent sure we can do it without problems.
@@ -26,6 +44,7 @@ class HTTPClient {
   private headers: IHeaders;
   private timeout: number;
   private baseURL: string;
+  private pathPrefix: string;
 
   /**
    * Create HTTPClient instance to start making request in another class.
@@ -39,6 +58,7 @@ class HTTPClient {
     this.headers = input.headers;
     this.timeout = input.timeout;
     this.baseURL = input.baseURL;
+    this.pathPrefix = input.pathPrefix;
   }
 
   /**
@@ -52,14 +72,18 @@ class HTTPClient {
    * data or an Error with the problem.
    */
   public makeRequest(input: IMakeRequest): Promise<any> {
+    const path = `${this.baseURL}${this.pathPrefix}${input.path}`;
+
+    const options = {
+      headers: input.headers || this.headers,
+      params: input.params,
+      timeout: this.timeout,
+    };
+
     switch (input.method) {
       case 'GET':
         return _axios
-          .get(`${this.baseURL}${input.path}`, {
-            headers: this.headers,
-            timeout: this.timeout,
-            params: input.params,
-          })
+          .get(path, options)
           .then((res: AxiosResponse<any>) => {
             return res.data;
           })
@@ -67,11 +91,7 @@ class HTTPClient {
 
       default:
         return _axios
-          .post(`${this.baseURL}${input.path}`, input.body, {
-            headers: this.headers,
-            timeout: this.timeout,
-            params: input.params,
-          })
+          .post(path, input.body, options)
           .then((res: AxiosResponse<any>) => {
             return res.data;
           })
@@ -93,33 +113,11 @@ class HTTPClient {
 }
 
 /**
- * @classdesc Represents the Autoinspector SDK. It allows the user to make every call to the API with a single function.
+ * @classdesc Represents the class that contains the methods or actions that somebody can do using apikey and access_token.
  * @class
  */
-class Autoinspector {
-  private version: string = 'v1';
-  private httpClient: HTTPClient;
-
-  /**
-   * Create Autoinspector SDK.
-   * @constructor
-   * @see {@link https://autoinspector.com.ar/docs/api/start}
-   * @param {String} apikey - The apikey for authentication.
-   */
-  constructor(input: IAutoinspector) {
-    if (typeof input.apikey !== 'string') {
-      throw new Error('apikey should be a string.');
-    }
-
-    this.httpClient = new HTTPClient({
-      baseURL: process.env.AUTOINSPECTOR_API_BASE_URL || 'https://api.autoinspector.com.ar',
-      headers: {
-        'x-api-key': input.apikey,
-        'User-Agent': 'autoinspector-node-sdk/' + pkg.version,
-      },
-      timeout: input.timeout || 80000,
-    });
-  }
+abstract class InspectionHandler {
+  constructor(private readonly httpClient: HTTPClient) {}
 
   /**
    * Create an inspection of type vehicle
@@ -135,8 +133,9 @@ class Autoinspector {
   createVehicleInspection(input: ICreateVehicleInspection): Promise<ICreateInspectionOutput> {
     return this.httpClient.makeRequest({
       method: 'POST',
-      path: `/${this.version}/inspection/vehicle`,
+      path: `/inspection/vehicle`,
       body: input,
+      headers: Helper.buildOptionalHeaders(input.accessToken),
     });
   }
 
@@ -154,8 +153,9 @@ class Autoinspector {
   createPeopleInspection(input: ICreatePeopleInspection): Promise<ICreateInspectionOutput> {
     return this.httpClient.makeRequest({
       method: 'POST',
-      path: `/${this.version}/inspection/people`,
+      path: `/inspection/people`,
       body: input,
+      headers: Helper.buildOptionalHeaders(input.accessToken),
     });
   }
 
@@ -173,8 +173,9 @@ class Autoinspector {
   createMachineryInspection(input: ICreateMachineryInspection): Promise<ICreateInspectionOutput> {
     return this.httpClient.makeRequest({
       method: 'POST',
-      path: `/${this.version}/inspection/machinery`,
+      path: `/inspection/machinery`,
       body: input,
+      headers: Helper.buildOptionalHeaders(input.accessToken),
     });
   }
 
@@ -192,9 +193,153 @@ class Autoinspector {
   createGoodsInspection(input: ICreateGoodsInspection): Promise<ICreateInspectionOutput> {
     return this.httpClient.makeRequest({
       method: 'POST',
-      path: `/${this.version}/inspection/goods`,
+      path: `/inspection/goods`,
       body: input,
+      headers: Helper.buildOptionalHeaders(input.accessToken),
     });
+  }
+}
+
+/**
+ * @classdesc Represents the class that contains the methods/actions availables that somebody can do using the access_token received in the oauth 2.0 authorization code flow.
+ * @class
+ */
+class AuthenticatedUser extends InspectionHandler {
+  constructor(private readonly httpRef: HTTPClient) {
+    super(httpRef);
+  }
+
+  /**
+   * List all the inspections with a couple of filters.
+   * @param  input - An object that contains the information for make the request.
+   * @param {String} input.scope - Indicates if the inspections to retrieve will be where the user authenticated is the producer or where the users created by the user authenticated invite before.
+   * @param {String} input.accessToken - Represents the token that belongs to the authenticated user.
+   * @param  input.params - An object that contains the filters.
+   * @param {String} input.params.from - Represents the base date in ISO format of the inspections to retrieve.
+   * @param {String} input.params.to - Represents the limit date in ISO format of the inspections to retrieve.
+   * @param {String} input.params.result - Represents the result that inspections to retrieve should have.
+   * @param {String} input.params.search - Represents a general search that will match with the consumer: identification, firstName and email.
+   * @param {String} input.params.status - Represents the status that inspections to retrieve should have.
+   * @param {Number} input.params.page - Represents the specific page that you want to retrieve the inspections.
+   * @return {Promise} - Returns a Promise that, when fulfilled, will either return an JSON Object with the requested
+   * data or an Error with the problem.
+   */
+  listInspections(input: IAuthenticatedUserListInspections) {
+    return this.httpRef.makeRequest({
+      method: 'GET',
+      path: `/inspection/${input.scope}?membershipId=${input.membershipId}`,
+      params: input.params,
+      headers: Helper.buildOptionalHeaders(input.accessToken),
+    });
+  }
+
+  /**
+   * List all the memberships that the user authenticated has with companies.
+   * @param  input - An object that contains the information for make the request.
+   * @param {String} input.accessToken - Represents the token that belongs to the authenticated user.
+   * @return {Promise} - Returns a Promise that, when fulfilled, will either return an JSON Object with the requested
+   * data or an Error with the problem.
+   */
+  listMemberships(input: IListMemberships) {
+    return this.httpRef.makeRequest({
+      method: 'GET',
+      path: `/account/membership/authenticated`,
+      headers: Helper.buildOptionalHeaders(input.accessToken),
+    });
+  }
+}
+
+/**
+ * @classdesc Represents the class that has the responsability for make the request to every endpoint about oauth.
+ * @class
+ */
+class OAuth20 {
+  private credentials: Partial<IOAuth20Credentials>;
+
+  /**
+   * Create OAuth20 instance to implement and execute methods in another class.
+   * @constructor
+   * @param httpClient - The httpClient that needs to be injected in the constructor. This is done by this way for inherit the http configuration from the Autoinspector constructor.
+   * @param credentials - An object with the neccessary credentials for interact with oauth endpoints.
+   * @param {String} credentials.clientappId - Represents the identification value that is generated when register an application into Autoinspector Dashboard.
+   * @param {String} credentials.clientSecret - Represents the token that is generated when register an application in Autoinspector Dashboard. It's an sensitive key. so it will only be exported/used in back channel.
+   */
+  constructor(private readonly httpClient: HTTPClient, credentials: Partial<IOAuth20Credentials>) {
+    this.credentials = credentials;
+  }
+
+  /**
+   * Exchange some authorization code for a valid access_token.
+   * @param input - An object that contains the essential information for make the trade.
+   * @param {String} input.code - Represents the code received from Autoinspector in callbackURL.
+   * @return {Promise} - Returns a Promise that, when fulfilled, will either return an JSON Object with the requested
+   * data or an Error with the problem.
+   */
+  exchangeCodeForAccessToken(input: IExchangeCodeForAccessToken) {
+    return this.httpClient.makeRequest({
+      method: 'POST',
+      path: '/oauth/exchange_code',
+      body: {
+        ...input,
+        ...this.credentials,
+      },
+    });
+  }
+
+  /**
+   * Refresh some access_token for obtain a new one. This is useful for keep a long-term access_token.
+   * @param input - An object that contains the essential information refresh the token.
+   * @param {String} input.refreshToken - Represents the refresh token received when exchanged the code for an access_token.
+   * @return {Promise} - Returns a Promise that, when fulfilled, will either return an JSON Object with the requested
+   * data or an Error with the problem.
+   */
+  refreshAccessToken(input: IRefreshAccessToken) {
+    return this.httpClient.makeRequest({
+      method: 'POST',
+      path: '/oauth/refresh_token',
+      body: {
+        ...input,
+        ...this.credentials,
+      },
+    });
+  }
+}
+
+/**
+ * @classdesc Represents the Autoinspector SDK. It allows the user to make every call to the API with a single function.
+ * @class
+ */
+class Autoinspector extends InspectionHandler {
+  private http: HTTPClient;
+  public oauth: OAuth20;
+  public authenticatedUser: AuthenticatedUser;
+
+  /**
+   * Create Autoinspector SDK.
+   * @constructor
+   * @see {@link https://autoinspector.com.ar/docs/api/start}
+   * @param {String} apikey - The apikey for authentication.
+   */
+  constructor(input: IAutoinspector) {
+    if (typeof input.apikey !== 'string') {
+      throw new Error('apikey should be a string.');
+    }
+
+    const httpClient = new HTTPClient({
+      baseURL: process.env.AUTOINSPECTOR_API_BASE_URL || 'https://api.autoinspector.com.ar',
+      headers: {
+        'x-api-key': input.apikey,
+        'User-Agent': 'autoinspector-node-sdk/' + pkg.version,
+      },
+      timeout: input.timeout || 80000,
+      pathPrefix: '/v1',
+    });
+
+    super(httpClient);
+
+    this.oauth = new OAuth20(httpClient, input.oauthCredentials || {});
+    this.authenticatedUser = new AuthenticatedUser(httpClient);
+    this.http = httpClient;
   }
 
   /**
@@ -223,9 +368,9 @@ class Autoinspector {
       form.append('date', input.date.toISOString());
     }
 
-    return this.httpClient.makeRequest({
+    return this.http.makeRequest({
       method: 'POST',
-      path: `/${this.version}/inspection/image/${input.inspectionId}/${input.productInspectionItemId}`,
+      path: `/inspection/image/${input.inspectionId}/${input.productInspectionItemId}`,
       body: form,
     });
   }
@@ -243,9 +388,9 @@ class Autoinspector {
    * data or an Error with the problem.
    */
   finishInspection(input: IFinishInspection): Promise<IAPISucessResponse> {
-    return this.httpClient.makeRequest({
+    return this.http.makeRequest({
       method: 'POST',
-      path: `/${this.version}/inspection/finish/${input.inspectionId}`,
+      path: `/inspection/finish/${input.inspectionId}`,
       body: {},
     });
   }
@@ -258,9 +403,9 @@ class Autoinspector {
    * data or an Error with the problem.
    */
   getInspection(input: IGetInspection): Promise<IInspection> {
-    return this.httpClient.makeRequest({
+    return this.http.makeRequest({
       method: 'GET',
-      path: `/${this.version}/inspection/${input.inspectionId}`,
+      path: `/inspection/${input.inspectionId}`,
     });
   }
 
@@ -275,9 +420,9 @@ class Autoinspector {
    * data or an Error with the problem.
    */
   listInspections(input: Partial<IPagination> = {}): Promise<IPaginationResponse<IInspection[]>> {
-    return this.httpClient.makeRequest({
+    return this.http.makeRequest({
       method: 'GET',
-      path: `/${this.version}/inspection`,
+      path: `/inspection`,
       params: input,
     });
   }

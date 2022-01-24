@@ -1,9 +1,4 @@
-export enum Sex {
-  NOT_KNOWN = 0,
-  MALE = 1,
-  FEMALE = 2,
-  NOT_APPLICABLE = 9,
-}
+export type Sex = 0 | 1 | 2 | 9;
 
 export interface IConsumer {
   firstName: string;

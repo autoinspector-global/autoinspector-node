@@ -13,10 +13,12 @@ export interface IMakeRequest {
   path: string;
   body?: any;
   params?: IParams;
+  headers?: IHeaders;
 }
 
 export interface IHTTPClient {
   headers: IHeaders;
   timeout: number;
   baseURL: string;
+  pathPrefix: string;
 }

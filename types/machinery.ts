@@ -2,48 +2,39 @@ import { Colors } from './colors';
 import { IConfiguration, IConfigurationCommonValidations } from './configuration';
 import { IInspectionCommonParams } from './inspection';
 
-export enum MachineryPurpose {
-  AGRICOLA = 'Agrícola',
-  VIAL = 'Vial',
-  INDUSTRIAL = 'Industrial',
-}
+export type MachineryPurpose = 'Agrícola' | 'Vial' | 'Industrial';
 
-export enum MachineryUse {
-  OFICIAL = 'OFICIAL',
-  PRIVADO = 'PRIVADO',
-  PÚBLICO = 'PÚBLICO',
-}
+export type MachineryUse = 'OFICIAL' | 'PRIVADO' | 'PÚBLICO';
 
-export enum MachineryTypes {
-  TRACTOR = 'tractor',
-  COMBINE_HARVESTER = 'combine_harvester',
-  SPRAYER = 'sprayer',
-  SEEDER = 'seeder',
-  FUMIGATOR = 'fumigator',
-  BALER = 'baler',
-  ROUND_BALER = 'round_baler',
-  PAVER = 'paver',
-  LEVELER = 'leveler',
-  CRANE = 'crane',
-  EXCAVATOR = 'excavator',
-  CARTS = 'carts',
-  GRADER = 'grader',
-  LOADER = 'loader',
-  SCRAPERS = 'scrapers',
-  COMPACTING_MACHINE = 'compacting_machine',
-  MACHINE_SOIL_TREATMENT = 'machine_soil_treatment',
-  FORKLIFT = 'forklift',
-  MOTOR_VEHICLE_WITH_COUPLING_DEVICE = 'motor_vehicle_with_coupling_device',
-  FERTILIZER = 'fertilizer',
-  BACKHOE = 'backhoe',
-  BULLDOZER = 'bulldozer',
-  COMPACTOR = 'compactor',
-  HIDROGUA = 'hidrogua',
-  TRENCHER = 'trencher',
-  MIXER = 'mixer',
-  HOPPER = 'hopper',
-  MECHANICAL_SHOVEL = 'mechanical_shovel',
-}
+export type MachineryTypes =
+  | 'tractor'
+  | 'combine_harvester'
+  | 'sprayer'
+  | 'seeder'
+  | 'fumigator'
+  | 'baler'
+  | 'round_baler'
+  | 'paver'
+  | 'leveler'
+  | 'crane'
+  | 'excavator'
+  | 'carts'
+  | 'grader'
+  | 'loader'
+  | 'scrapers'
+  | 'compacting_machine'
+  | 'machine_soil_treatment'
+  | 'forklift'
+  | 'motor_vehicle_with_coupling_device'
+  | 'fertilizer'
+  | 'backhoe'
+  | 'bulldozer'
+  | 'compactor'
+  | 'hidrogua'
+  | 'trencher'
+  | 'mixer'
+  | 'hopper'
+  | 'mechanical_shovel';
 
 export interface IMachineryConfiguration extends IConfigurationCommonValidations {
   /**

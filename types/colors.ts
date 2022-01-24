@@ -1,11 +1,10 @@
-export enum Colors {
-  YELLOW = 'yellow',
-  BLUE = 'blue',
-  WHITE = 'white',
-  GOLD = 'gold',
-  GREY = 'grey',
-  ORANGE = 'orange',
-  BLACK = 'black',
-  RED = 'red',
-  GREEN = 'green',
-}
+export type Colors =
+  | 'yellow'
+  | 'blue'
+  | 'white'
+  | 'gold'
+  | 'grey'
+  | 'orange'
+  | 'black'
+  | 'red'
+  | 'green';

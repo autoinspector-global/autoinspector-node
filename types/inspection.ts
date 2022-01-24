@@ -1,9 +1,6 @@
 import { IConsumer } from './consumer';
 
-export enum InspectionCompletedBy {
-  CLIENT = 'client',
-  EXPIRATION = 'expiration',
-}
+export type InspectionCompletedBy = 'client' | 'expiration';
 
 export interface IValidation {
   confidence: number;
@@ -12,38 +9,15 @@ export interface IValidation {
   type: string;
 }
 
-export enum InspectionType {
-  GOODS = 'goods',
-  PEOPLE = 'people',
-  VEHICLE = 'vehicle',
-  MACHINERY = 'machinery',
-}
+export type InspectionType = 'goods' | 'people' | 'vehicle' | 'machinery';
 
-export enum InspectionResult {
-  APPROVED = 'approved',
-  DISAPPROVED = 'disapproved',
-  NOT_DEFINED = 'not_defined',
-  NOT_PROVIDED = 'not_provided',
-}
+export type InspectionResult = 'approved' | 'disapproved' | 'not_defined' | 'not_provided';
 
-export enum ImageGeneratedBy {
-  CONFIGURATION = 'configuration',
-  DAMAGE_DECLARATION = 'damage_declaration',
-  FULL_CONTROL = 'full_control',
-}
+export type ImageGeneratedBy = 'configuration' | 'damage_declaration' | 'full_control';
 
-export enum InspectionStatus {
-  CREATED = 'created',
-  STARTED = 'started',
-  COMPLETED = 'completed',
-  BLOCKED = 'blocked',
-  PROCESSING = 'processing',
-}
+export type InspectionStatus = 'created' | 'started' | 'completed' | 'blocked' | 'processing';
 
-export enum InspectionMode {
-  FULL_CONTROL = 'full_control',
-  NORMAL = 'normal',
-}
+export type InspectionMode = 'full_control' | 'normal';
 
 export interface IImageDetection {
   name: string;
@@ -62,12 +36,7 @@ export interface IImage {
   generatedBy: ImageGeneratedBy;
 }
 
-export enum KindOf {
-  EASY = 'easy',
-  DEEP = 'deep',
-  DAMAGE = 'damage',
-  FULL_CONTROL = 'full_control',
-}
+export type KindOf = 'easy' | 'deep' | 'damage' | 'full_control';
 
 export interface IInspectionCommonParams {
   consumer: IConsumer;
@@ -76,6 +45,7 @@ export interface IInspectionCommonParams {
   kindOf?: KindOf;
   mode?: InspectionMode;
   metadata?: object;
+  accessToken?: string;
 }
 
 export interface IFinishInspection extends IGetInspection {}
@@ -109,3 +79,5 @@ export interface IInspection {
   producer: IProducer;
   metadata: object;
 }
+
+export interface IInspectionHandler {}
