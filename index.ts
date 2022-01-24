@@ -19,10 +19,17 @@ import { IAPISucessResponse } from './types/api';
 import { IAutoinspector } from './types/autoinspector';
 import {
   IExchangeCodeForAccessToken,
+  IExchangeCodeForAccessTokenOutput,
   IOAuth20Credentials,
   IRefreshAccessToken,
+  IRefreshAccessTokenOutput,
 } from './types/oauth20';
-import { IAuthenticatedUserListInspections, IListMemberships } from './types/authenticatedUser';
+import {
+  IAuthenticatedUserListInspections,
+  IListAuthenticatedUserInspectionsOutput,
+  IListMemberships,
+  IListMembershipsOutput,
+} from './types/authenticatedUser';
 
 class Helper {
   static buildOptionalHeaders(accessToken?: string): IHeaders | undefined {
@@ -224,7 +231,9 @@ class AuthenticatedUser extends InspectionHandler {
    * @return {Promise} - Returns a Promise that, when fulfilled, will either return an JSON Object with the requested
    * data or an Error with the problem.
    */
-  listInspections(input: IAuthenticatedUserListInspections) {
+  listInspections(
+    input: IAuthenticatedUserListInspections
+  ): Promise<IListAuthenticatedUserInspectionsOutput[]> {
     return this.httpRef.makeRequest({
       method: 'GET',
       path: `/inspection/${input.scope}?membershipId=${input.membershipId}`,
@@ -234,13 +243,13 @@ class AuthenticatedUser extends InspectionHandler {
   }
 
   /**
-   * List all the memberships that the user authenticated has with companies.
+   * List all the memberships accepted by the user authenticated related with companies.
    * @param  input - An object that contains the information for make the request.
    * @param {String} input.accessToken - Represents the token that belongs to the authenticated user.
    * @return {Promise} - Returns a Promise that, when fulfilled, will either return an JSON Object with the requested
    * data or an Error with the problem.
    */
-  listMemberships(input: IListMemberships) {
+  listMemberships(input: IListMemberships): Promise<IListMembershipsOutput> {
     return this.httpRef.makeRequest({
       method: 'GET',
       path: `/account/membership/authenticated`,
@@ -275,10 +284,12 @@ class OAuth20 {
    * @return {Promise} - Returns a Promise that, when fulfilled, will either return an JSON Object with the requested
    * data or an Error with the problem.
    */
-  exchangeCodeForAccessToken(input: IExchangeCodeForAccessToken) {
+  exchangeCodeForAccessToken(
+    input: IExchangeCodeForAccessToken
+  ): Promise<IExchangeCodeForAccessTokenOutput> {
     return this.httpClient.makeRequest({
       method: 'POST',
-      path: '/oauth/exchange_code',
+      path: '/account/oauth/exchange_code',
       body: {
         ...input,
         ...this.credentials,
@@ -293,10 +304,10 @@ class OAuth20 {
    * @return {Promise} - Returns a Promise that, when fulfilled, will either return an JSON Object with the requested
    * data or an Error with the problem.
    */
-  refreshAccessToken(input: IRefreshAccessToken) {
+  refreshAccessToken(input: IRefreshAccessToken): Promise<IRefreshAccessTokenOutput> {
     return this.httpClient.makeRequest({
       method: 'POST',
-      path: '/oauth/refresh_token',
+      path: '/account/oauth/refresh_token',
       body: {
         ...input,
         ...this.credentials,

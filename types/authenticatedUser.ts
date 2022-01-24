@@ -19,4 +19,53 @@ export interface IAuthenticatedUserListInspections extends IAuthenticatedUserCom
   membershipId: string;
 }
 
+export interface IPaginationOutput {
+  hasNextPage: boolean;
+  hasPrevPage: boolean;
+  limit: number;
+  nextPage?: number;
+  page: number;
+  pagingCounter: number;
+  prevPage?: number;
+  totalDocs: number;
+  totalPages: number;
+}
+
+export interface IInspectionItemOutput {
+  accessCode: string;
+  consumer: {
+    firstName: string;
+    identification: string;
+    lastName: string;
+  };
+  createdAt: string;
+  id: string;
+  producer: {
+    companyId: string;
+    user: { _id: string; username: string };
+    userId: string;
+  };
+  status: string;
+  type: string;
+  _id: string;
+}
+
+export interface IListAuthenticatedUserInspectionsOutput {
+  pagination: IPaginationOutput;
+  inspection: IInspectionItemOutput[];
+}
+
 export interface IListMemberships extends IAuthenticatedUserCommonParams {}
+
+export interface ICompany {
+  logo: string;
+  societyReason: string;
+}
+
+export interface IMembershipItem {
+  role: string;
+  company: ICompany;
+  _id: string;
+}
+
+export type IListMembershipsOutput = IMembershipItem[];
