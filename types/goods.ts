@@ -1,5 +1,5 @@
 import { IConfiguration, IConfigurationCommonValidations } from './configuration';
-import { IInspectionCommonParams } from './inspection';
+import { IInspectionCommonParams, IInspectionUpdateCommonParams } from './inspection';
 
 export interface IGoodConfiguration extends IConfigurationCommonValidations {
   /**
@@ -47,4 +47,11 @@ export interface IGood {
  */
 export interface ICreateGoodsInspection extends IInspectionCommonParams {
   goods: IGood[];
+}
+
+/**
+ * Represents the object to be sended when create an inspection of type vehicle.
+ */
+export interface IUpdateGoodsInspection extends IInspectionUpdateCommonParams {
+  good?: Partial<IGood>;
 }

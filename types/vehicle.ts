@@ -1,6 +1,6 @@
 import { Colors } from './colors';
 import { IConfiguration, IConfigurationCommonValidations } from './configuration';
-import { IInspectionCommonParams } from './inspection';
+import { IInspectionCommonParams, IInspectionUpdateCommonParams } from './inspection';
 
 export enum VehicleUse {
   OFICIAL = 'OFICIAL',
@@ -140,4 +140,8 @@ export interface IVehicle {
  */
 export interface ICreateVehicleInspection extends IInspectionCommonParams {
   vehicle: IVehicle;
+}
+
+export interface IUpdateVehicleInspection extends Partial<IInspectionUpdateCommonParams> {
+  vehicle?: IVehicle;
 }

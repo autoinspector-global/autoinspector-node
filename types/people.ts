@@ -1,5 +1,5 @@
 import { IConfiguration, IConfigurationCommonValidations } from './configuration';
-import { IInspectionCommonParams } from './inspection';
+import { IInspectionCommonParams, IInspectionUpdateCommonParams } from './inspection';
 
 export interface IPeopleConfiguration extends IConfigurationCommonValidations {
   /**
@@ -49,3 +49,5 @@ export interface IPeople {
 export interface ICreatePeopleInspection extends IInspectionCommonParams {
   people: IPeople;
 }
+
+export interface IUpdatePeopleInspection extends Partial<IInspectionUpdateCommonParams> {}

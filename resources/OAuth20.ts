@@ -6,6 +6,7 @@ import {
   IRefreshAccessTokenOutput,
 } from '../types/oauth20';
 import { HTTPClient } from './HTTPClient';
+import { OAuthUser } from './OAuthUser';
 
 /**
  * @classdesc Represents the class that has the responsability for make the request to every endpoint about oauth.
@@ -13,6 +14,7 @@ import { HTTPClient } from './HTTPClient';
  */
 export class OAuth20 {
   private credentials: Partial<IOAuth20Credentials>;
+  public user: OAuthUser;
 
   /**
    * Create OAuth20 instance to implement and execute methods in another class.
@@ -24,6 +26,7 @@ export class OAuth20 {
    */
   constructor(private readonly httpClient: HTTPClient, credentials: Partial<IOAuth20Credentials>) {
     this.credentials = credentials;
+    this.user = new OAuthUser(httpClient);
   }
 
   /**

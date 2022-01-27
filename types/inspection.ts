@@ -126,7 +126,9 @@ export interface IImage {
 export type KindOf = 'easy' | 'deep' | 'damage' | 'full_control';
 
 export interface IInspectionUpdateCommonParams
-  extends Pick<IInspectionCommonParams, 'consumer' | 'metadata' | 'accessToken'> {}
+  extends Pick<IInspectionCommonParams, 'consumer' | 'metadata' | 'accessToken'> {
+  productId: string;
+}
 
 export interface IInspectionCommonParams {
   consumer: IConsumer;

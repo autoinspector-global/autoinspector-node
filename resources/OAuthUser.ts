@@ -6,15 +6,17 @@ import {
 } from '../types/authenticatedUser';
 import { Helper } from './Helper';
 import { HTTPClient } from './HTTPClient';
-import { InspectionHandler } from './InspectionHandler';
+import { Inspections } from './Inspections';
 
 /**
  * @classdesc Represents the class that contains the methods/actions availables that somebody can do using the access_token received in the oauth 2.0 authorization code flow.
  * @class
  */
-export class AuthenticatedUser extends InspectionHandler {
-  constructor(private readonly httpRef: HTTPClient) {
-    super(httpRef);
+export class OAuthUser {
+  public inspections: Inspections;
+
+  constructor(private readonly httpClient: HTTPClient) {
+    this.inspections = new Inspections(httpClient);
   }
 
   /**
@@ -35,7 +37,7 @@ export class AuthenticatedUser extends InspectionHandler {
   listInspections(
     input: IAuthenticatedUserListInspections
   ): Promise<IListAuthenticatedUserInspectionsOutput[]> {
-    return this.httpRef.makeRequest({
+    return this.httpClient.makeRequest({
       method: 'GET',
       path: `/inspection/${input.scope}?membershipId=${input.membershipId}`,
       params: input.params,
@@ -51,7 +53,7 @@ export class AuthenticatedUser extends InspectionHandler {
    * data or an Error with the problem.
    */
   listMemberships(input: IListMemberships): Promise<IListMembershipsOutput> {
-    return this.httpRef.makeRequest({
+    return this.httpClient.makeRequest({
       method: 'GET',
       path: `/account/membership/authenticated`,
       headers: Helper.buildOptionalHeaders(input.accessToken),

@@ -9,3 +9,7 @@ export interface IAutoinspectorError {
 }
 
 export type APIMethods = 'POST' | 'GET' | 'PUT' | 'DELETE';
+
+export interface IUpdateResourceResponse {
+  message: string;
+}
