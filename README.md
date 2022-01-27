@@ -1,5 +1,7 @@
 # Autoinspector Node.js SDK
 
+> **IMPORTANT**: At the moment this SDK only works for stage environment.
+
 The Autoinspector Node library provides convenient access to the Autoinspector API from applications written in server-side JavaScript.
 
 ## Installation

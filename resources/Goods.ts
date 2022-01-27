@@ -4,9 +4,12 @@ import { ICreateInspectionGoodsOutput } from '../types/inspection';
 import { IProductMethods } from '../types/productMethods';
 import { Helper } from './Helper';
 import { HTTPClient } from './HTTPClient';
+import { Image } from './Image';
 
-export class Goods implements IProductMethods {
-  constructor(private readonly httpClient: HTTPClient) {}
+export class Goods extends Image implements IProductMethods {
+  constructor(private readonly httpClient: HTTPClient) {
+    super(httpClient);
+  }
 
   /**
    * Create an inspection that will contains goods.

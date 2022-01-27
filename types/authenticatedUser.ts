@@ -1,9 +1,9 @@
-import { InspectionResult, InspectionStatus } from './inspection';
+import { InspectionStatus, InspectionVeredict } from './inspection';
 
 export interface IListInspections {
   from: Date;
   to: Date;
-  result: InspectionResult;
+  veredict: InspectionVeredict;
   search: string;
   status: InspectionStatus;
   page: number;

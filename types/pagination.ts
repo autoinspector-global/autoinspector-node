@@ -1,10 +1,10 @@
-import { InspectionResult, InspectionStatus, InspectionType } from './inspection';
+import { InspectionStatus, InspectionType, InspectionVeredict } from './inspection';
 
 export interface IPagination {
   page: number;
   limit: number;
   status: InspectionStatus;
-  result: InspectionResult;
+  result: InspectionVeredict;
   type: InspectionType;
 }
 
