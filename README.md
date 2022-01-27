@@ -6,10 +6,20 @@ The Autoinspector Node library provides convenient access to the Autoinspector A
 
 ## Installation
 
+At the moment this node module is no published in NPM. But you can use it locally linking the autoinspector SDK to your project. Follow the next steps:
+
 ```
-npm install autoinspector
-#or
-yarn install autoinspector
+git clone https://github.com/autoinspector-global/autoinspector-node autoinspector
+cd autoinspector
+npm i
+npm run build
+npm link
+```
+
+And in your project:
+
+```
+npm link autoinspector
 ```
 
 ## Usage
