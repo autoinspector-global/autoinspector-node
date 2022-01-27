@@ -72,6 +72,5 @@ export interface IUploadImage {
   date?: Date;
   side: ImageSides;
   image: Buffer;
-  productInspectionItemId: string;
-  inspectionId: string;
+  productId: string;
 }

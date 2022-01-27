@@ -8,4 +8,4 @@ export interface IAutoinspectorError {
   detail: string;
 }
 
-export type APIMethods = 'POST' | 'GET' | 'PUT';
+export type APIMethods = 'POST' | 'GET' | 'PUT' | 'DELETE';

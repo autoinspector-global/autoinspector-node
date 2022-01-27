@@ -122,7 +122,7 @@ export interface IVehicle {
   /**
    * Brand: The make/brand of the vehicle.
    */
-  brand?: string;
+  make?: string;
 
   /**
    * Model: The model of the vehicle.

@@ -13,9 +13,9 @@ export interface IGoodConfiguration extends IConfigurationCommonValidations {
  */
 export interface IGood {
   /**
-   * brand: `The brand of the good item.`
+   * make: `The make of the good item.`
    */
-  brand: string;
+  make: string;
   /**
    * model: `The model of the good item.`
    */

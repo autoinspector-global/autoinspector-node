@@ -1,6 +1,6 @@
 import { Colors } from './colors';
 import { IConfiguration, IConfigurationCommonValidations } from './configuration';
-import { IInspectionCommonParams } from './inspection';
+import { IInspectionCommonParams, IInspectionUpdateCommonParams } from './inspection';
 
 export type MachineryPurpose = 'Agrícola' | 'Vial' | 'Industrial';
 
@@ -58,9 +58,9 @@ export interface IMachineryConfiguration extends IConfigurationCommonValidations
 
 export interface IMachinery {
   /**
-   * brand: `The brand of the machinery.`
+   * make: `The make of the machinery.`
    */
-  brand?: string;
+  make?: string;
   /**
    * color: `The color of the machinery.`
    */
@@ -93,5 +93,9 @@ export interface IMachinery {
 }
 
 export interface ICreateMachineryInspection extends IInspectionCommonParams {
-  machinery: ICreateMachineryInspection;
+  machinery: IMachinery;
+}
+
+export interface IUpdateMachineryInspection extends IInspectionUpdateCommonParams {
+  machinery?: Partial<IMachinery>;
 }
