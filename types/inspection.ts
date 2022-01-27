@@ -132,7 +132,6 @@ export interface IInspectionUpdateCommonParams
 
 export interface IInspectionCommonParams {
   consumer: IConsumer;
-  isAPI: boolean;
   producer?: IProducer;
   kindOf?: KindOf;
   mode?: InspectionMode;
