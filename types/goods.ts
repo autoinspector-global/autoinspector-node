@@ -1,5 +1,9 @@
 import { IConfiguration, IConfigurationCommonValidations } from './configuration';
-import { IInspectionCommonParams, IInspectionUpdateCommonParams } from './inspection';
+import {
+  ICreateInspectionProducer,
+  IInspectionCommonParams,
+  IInspectionUpdateCommonParams,
+} from './inspection';
 
 export interface IGoodConfiguration extends IConfigurationCommonValidations {
   /**
@@ -7,6 +11,47 @@ export interface IGoodConfiguration extends IConfigurationCommonValidations {
    */
   serialNumber: IConfiguration;
 }
+
+export type GoodsCategory =
+  | 'sports'
+  | 'electronics'
+  | 'instruments'
+  | 'jewellery'
+  | 'art'
+  | 'home'
+  | 'mobility';
+
+export type GoodsType =
+  | 'skies'
+  | 'surf_table'
+  | 'kayak'
+  | 'golf_set'
+  | 'skate_board'
+  | 'mobile'
+  | 'laptop'
+  | 'tablets'
+  | 'monitor'
+  | 'watch_digital'
+  | 'printer_3d'
+  | 'headsets'
+  | 'camera'
+  | 'controllers'
+  | 'drone'
+  | 'sax'
+  | 'violin'
+  | 'guitar'
+  | 'drums'
+  | 'keyboard'
+  | 'amplifier'
+  | 'jewel'
+  | 'watch_luxury'
+  | 'paint'
+  | 'refrigerator'
+  | 'microwave'
+  | 'tv'
+  | 'freezer'
+  | 'bike'
+  | 'scuter';
 
 /**
  * Represents the people object to be attached to the inspection.
@@ -23,11 +68,11 @@ export interface IGood {
   /**
    * type: `The type of the good item.`
    */
-  type: string;
+  type: GoodsType;
   /**
    * category: `The category of the good item.`
    */
-  category: string;
+  category: GoodsCategory;
   /**
    * serialNumber: `The serialNumber of the good item.`
    */
@@ -39,13 +84,13 @@ export interface IGood {
   /**
    * configuration: `Validation Configuration Template to be attached to the Good Inspection Item. If it not setted, the default configuration will be applied.`
    */
-  configuration?: IGoodConfiguration;
+  configuration?: Partial<IGoodConfiguration>;
 }
 
 /**
  * Represents the object to be sended when create an inspection of type vehicle.
  */
-export interface ICreateGoodsInspection extends IInspectionCommonParams {
+export interface ICreateGoodsInspection extends IInspectionCommonParams<ICreateInspectionProducer> {
   goods: IGood[];
 }
 

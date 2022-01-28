@@ -1,6 +1,7 @@
 import { IAPISucessResponse } from '../types/api';
 import { IUploadImage } from '../types/image';
 import { HTTPClient } from './HTTPClient';
+import FormData from 'form-data';
 
 export abstract class Image {
   constructor(private readonly httpRef: HTTPClient) {}
@@ -20,7 +21,7 @@ export abstract class Image {
     const form = new FormData();
 
     form.append('side', input.side);
-    form.append('image', input.image.toString('base64'));
+    form.append('image', input.image);
 
     if (input.coordinates) {
       form.append('coordinates', JSON.stringify(input.coordinates));
@@ -30,10 +31,15 @@ export abstract class Image {
       form.append('date', input.date.toISOString());
     }
 
+    console.log('FORM DATA!', form);
+
     return this.httpRef.makeRequest({
       method: 'POST',
       path: `/inspection/image/${input.productId}`,
       body: form,
+      headers: {
+        ...form.getHeaders(),
+      },
     });
   }
 }

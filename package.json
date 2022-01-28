@@ -25,6 +25,7 @@
   "homepage": "https://github.com/autoinspector-global/autoinspector-node#readme",
   "dependencies": {
     "axios": "^0.25.0",
+    "form-data": "^4.0.0",
     "isomorphic-form-data": "^2.0.0",
     "tsc": "^2.0.4",
     "typescript": "^4.5.4"

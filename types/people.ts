@@ -1,5 +1,9 @@
 import { IConfiguration, IConfigurationCommonValidations } from './configuration';
-import { IInspectionCommonParams, IInspectionUpdateCommonParams } from './inspection';
+import {
+  ICreateInspectionProducer,
+  IInspectionCommonParams,
+  IInspectionUpdateCommonParams,
+} from './inspection';
 
 export interface IPeopleConfiguration extends IConfigurationCommonValidations {
   /**
@@ -40,13 +44,14 @@ export interface IPeople {
   /**
    * configuration: `Validation Configuration Templated to be attached to the People inspection. If it not setted, the default configuration will be applied.`
    */
-  configuration?: IPeopleConfiguration;
+  configuration?: Partial<IPeopleConfiguration>;
 }
 
 /**
  * Represents the object to be sended when create an inspection of type vehicle.
  */
-export interface ICreatePeopleInspection extends IInspectionCommonParams {
+export interface ICreatePeopleInspection
+  extends IInspectionCommonParams<ICreateInspectionProducer> {
   people: IPeople;
 }
 

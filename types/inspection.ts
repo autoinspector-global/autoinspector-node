@@ -130,9 +130,9 @@ export interface IInspectionUpdateCommonParams
   productId: string;
 }
 
-export interface IInspectionCommonParams {
+export interface IInspectionCommonParams<P = IProducer> {
   consumer: IConsumer;
-  producer?: IProducer;
+  producer: P;
   kindOf?: KindOf;
   mode?: InspectionMode;
   metadata?: object;
@@ -165,10 +165,15 @@ export interface IProduct {
   type: InspectionType;
 }
 
+export interface ICreateInspectionProducer {
+  internalId: string;
+  mustMatchUser?: boolean;
+}
+
 export interface IProducer {
   userId: string;
-  companyId?: string;
-  internalId?: string;
+  companyId: string;
+  internalId: string;
 }
 
 export interface IInspection {

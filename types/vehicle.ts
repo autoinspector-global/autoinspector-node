@@ -1,28 +1,28 @@
 import { Colors } from './colors';
 import { IConfiguration, IConfigurationCommonValidations } from './configuration';
-import { IInspectionCommonParams, IInspectionUpdateCommonParams } from './inspection';
+import {
+  ICreateInspectionProducer,
+  IInspectionCommonParams,
+  IInspectionUpdateCommonParams,
+} from './inspection';
 
-export enum VehicleUse {
-  OFICIAL = 'OFICIAL',
-  PRIVADO = 'PRIVADO',
-  PARTICULAR = 'PARTICULAR',
-  TAXI = 'TAXI',
-  REMIS = 'REMIS',
-  AMBULANCIA = 'AMBULANCIA',
-  ESCUELA_DE_CONDUCIR = 'ESCUELA DE CONDUCIR',
-  TRANSPORTE_ESCOLAR_O_DE_MENORES = 'TRANSPORTE ESCOLAR O DE MENORES',
-  TRANSPORTE_DE_PASAJEROS_INTERJURISDICCIONAL = 'TRANSPORTE DE PASAJEROS INTERJURISDICCIONAL',
-  TRANSPORTE_DE_PASAJEROS_INTRAJURISDICCIONAL = 'TRANSPORTE DE PASAJEROS INTRAJURISDICCIONAL',
-  TRANSPORTE_DE_CARGA_INTERJURISDICCIONAL = 'TRANSPORTE DE CARGA INTERJURISDICCIONAL',
-  TRANSPORTE_DE_CARGA_INTRAJURISDICCIONAL = 'TRANSPORTE DE CARGA INTRAJURISDICCIONAL',
-  TRANSPORTE_DE_CARGA_DE_SUSTANCIAS_PELIGROSAS = 'TRANSPORTE DE CARGA DE SUSTANCIAS PELIGROSAS',
-  SERVICIO_DE_ALQUILER_SIN_CONDUCTOR = 'SERVICIO DE ALQUILER SIN CONDUCTOR',
-}
+export type VehicleUse =
+  | 'OFICIAL'
+  | 'PRIVADO'
+  | 'PARTICULAR'
+  | 'TAXI'
+  | 'REMIS'
+  | 'AMBULANCIA'
+  | 'ESCUELA DE CONDUCIR'
+  | 'TRANSPORTE ESCOLAR O DE MENORES'
+  | 'TRANSPORTE DE PASAJEROS INTERJURISDICCIONAL'
+  | 'TRANSPORTE DE PASAJEROS INTRAJURISDICCIONAL'
+  | 'TRANSPORTE DE CARGA INTERJURISDICCIONAL'
+  | 'TRANSPORTE DE CARGA INTRAJURISDICCIONAL'
+  | 'TRANSPORTE DE CARGA DE SUSTANCIAS PELIGROSAS'
+  | 'SERVICIO DE ALQUILER SIN CONDUCTOR';
 
-export enum VehicleTypes {
-  CAR = 'car',
-  MOTO = 'moto',
-}
+export type VehicleTypes = 'car' | 'moto';
 
 /**
  * Represents the vehicle configuration template for run the validations.
@@ -42,9 +42,9 @@ export interface IVehicleConfiguration extends IConfigurationCommonValidations {
    */
   angle: IConfiguration;
   /**
-   * Brand: Validation that verifies the brand of the product is the same as declared.
+   * Make: Validation that verifies the make of the product is the same as declared.
    */
-  brand: IConfiguration;
+  make: IConfiguration;
   /**
    * Model: Validation that verifies the color of the object is the same as declared.
    */
@@ -90,7 +90,7 @@ export interface IVehicle {
   /**
    * Configuration: The validation configuration template for the inspection.
    */
-  configuration?: IVehicleConfiguration;
+  configuration?: Partial<IVehicleConfiguration>;
   /**
    * Type: The type of vehicle.
    */
@@ -120,7 +120,7 @@ export interface IVehicle {
   year?: string;
 
   /**
-   * Brand: The make/brand of the vehicle.
+   * make: The make/brand of the vehicle.
    */
   make?: string;
 
@@ -138,7 +138,8 @@ export interface IVehicle {
 /**
  * Represents the object to be sended when create an inspection of type vehicle.
  */
-export interface ICreateVehicleInspection extends IInspectionCommonParams {
+export interface ICreateVehicleInspection
+  extends IInspectionCommonParams<ICreateInspectionProducer> {
   vehicle: IVehicle;
 }
 

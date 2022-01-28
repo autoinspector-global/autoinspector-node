@@ -4,7 +4,7 @@ export interface IDynamicMap<T = any> {
   [key: string]: T;
 }
 
-export interface IHeaders extends IDynamicMap<string> {}
+export interface IHeaders extends IDynamicMap<string | number> {}
 
 export interface IParams extends IDynamicMap<any> {}
 

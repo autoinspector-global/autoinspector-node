@@ -7,7 +7,7 @@ import { IHeaders, IHTTPClient, IMakeRequest } from '../types/http';
  * @class
  */
 export class HTTPClient {
-  private headers: IHeaders;
+  private headers: IHeaders = {};
   private timeout: number;
   private baseURL: string;
   private pathPrefix: string;
@@ -41,7 +41,10 @@ export class HTTPClient {
     const path = `${this.baseURL}${this.pathPrefix}${input.path}`;
 
     const options = {
-      headers: input.headers || this.headers,
+      headers: {
+        ...input.headers,
+        ...this.headers,
+      },
       params: input.params,
       timeout: this.timeout,
     };
