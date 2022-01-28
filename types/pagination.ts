@@ -4,8 +4,8 @@ export interface IPagination {
   page: number;
   limit: number;
   status: InspectionStatus;
-  result: InspectionVeredict;
-  type: InspectionType;
+  veredict: InspectionVeredict;
+  productType: InspectionType;
 }
 
 export interface IPaginationResponse<R = any> {
