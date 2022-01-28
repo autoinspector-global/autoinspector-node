@@ -1,5 +1,4 @@
 import axios, { AxiosResponse } from 'axios';
-import _axios from '../http/_axios';
 import { IHeaders, IHTTPClient, IMakeRequest } from '../types/http';
 
 /**
@@ -51,7 +50,7 @@ export class HTTPClient {
 
     switch (input.method) {
       case 'GET':
-        return _axios
+        return axios
           .get(path, options)
           .then((res: AxiosResponse<any>) => {
             return res.data;
@@ -59,7 +58,7 @@ export class HTTPClient {
           .catch((err) => this.handleError(err));
 
       case 'PUT':
-        return _axios
+        return axios
           .put(path, input.body, options)
           .then((res: AxiosResponse<any>) => {
             return res.data;
@@ -67,7 +66,7 @@ export class HTTPClient {
           .catch((err) => this.handleError(err));
 
       case 'POST':
-        return _axios
+        return axios
           .post(path, input.body, options)
           .then((res: AxiosResponse<any>) => {
             return res.data;
@@ -75,7 +74,7 @@ export class HTTPClient {
           .catch((err) => this.handleError(err));
 
       case 'DELETE':
-        return _axios
+        return axios
           .post(path, input.body, options)
           .then((res: AxiosResponse<any>) => {
             return res.data;

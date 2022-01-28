@@ -31,7 +31,7 @@ export class Machinery extends Image implements IProductMethods {
       method: 'POST',
       path: `/inspection/machinery`,
       body: input,
-      headers: Helper.buildOptionalHeaders(input.accessToken),
+      headers: Helper.buildOptionalHeaders(input?.accessToken),
     });
   }
 
@@ -50,7 +50,7 @@ export class Machinery extends Image implements IProductMethods {
       method: 'PUT',
       path: `/inspection/machinery/${input.productId}`,
       body: input,
-      headers: Helper.buildOptionalHeaders(input.accessToken),
+      headers: Helper.buildOptionalHeaders(input?.accessToken),
     });
   }
 }
