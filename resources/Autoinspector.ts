@@ -24,7 +24,7 @@ export class Autoinspector {
     }
 
     const httpClient = new HTTPClient({
-      baseURL: process.env.AUTOINSPECTOR_API_BASE_URL || 'https://api.stg-autoinspector.com.ar',
+      baseURL: 'https://api.autoinspector.com.ar',
       headers: {
         'x-api-key': input.apikey,
         'User-Agent': 'autoinspector-node-sdk/' + pkg.version,
