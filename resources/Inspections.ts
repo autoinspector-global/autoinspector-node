@@ -35,7 +35,7 @@ export class Inspections {
    * @return {Promise} - Returns a Promise that, when fulfilled, will either return an JSON Object with the requested
    * data or an Error with the problem.
    */
-  finishInspection(input: IFinishInspection): Promise<IAPISucessResponse> {
+  finish(input: IFinishInspection): Promise<IAPISucessResponse> {
     return this.httpClient.makeRequest({
       method: 'POST',
       path: `/inspection/finish/${input.inspectionId}`,
@@ -50,7 +50,7 @@ export class Inspections {
    * @return {Promise} - Returns a Promise that, when fulfilled, will either return an JSON Object with the requested
    * data or an Error with the problem.
    */
-  getInspection(input: IGetInspection): Promise<IInspection> {
+  retrieve(input: IGetInspection): Promise<IInspection> {
     return this.httpClient.makeRequest({
       method: 'GET',
       path: `/inspection/${input.inspectionId}`,
@@ -67,7 +67,7 @@ export class Inspections {
    * @return {Promise} - Returns a Promise that, when fulfilled, will either return an JSON Object with the requested
    * data or an Error with the problem.
    */
-  listInspections(input: Partial<IPagination> = {}): Promise<IPaginationResponse<IInspection[]>> {
+  list(input: Partial<IPagination> = {}): Promise<IPaginationResponse<IInspection[]>> {
     return this.httpClient.makeRequest({
       method: 'GET',
       path: `/inspection`,
