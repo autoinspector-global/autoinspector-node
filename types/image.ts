@@ -72,6 +72,6 @@ export interface IUploadImage {
   coordinates?: ICoordinates;
   date?: Date;
   side: ImageSide;
-  image: Buffer | ReadStream;
+  image: ReadStream;
   productId: string;
 }

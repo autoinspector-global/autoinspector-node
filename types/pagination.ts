@@ -4,13 +4,14 @@ export interface IPagination {
   page: number;
   limit: number;
   status: InspectionStatus;
+  type: InspectionType;
   veredict: InspectionVeredict;
-  productType: InspectionType;
+  internalId: string;
 }
 
 export interface IPaginationResponse<R = any> {
-  totalDocs: number;
-  data: R;
+  totalInspections: number;
+  inspections: R;
   limit: number;
   page?: number | undefined;
   totalPages: number;

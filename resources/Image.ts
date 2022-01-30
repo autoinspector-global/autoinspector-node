@@ -10,9 +10,9 @@ export abstract class Image {
    * Upload an image for specific product inspection item. For the moment, this method is only available for the inspection with mode full_control.
    * @param input - An object that contains the essential information for upload the image.
    * @param {String} input.productId - Represents the id of the product that you would like to attach a new photo.
-   * @param {Buffer} input.image - Represents the image to upload.
+   * @param {ReadStream} input.image - Represents the image to upload.
    * @param {String} input.side - Represents the side of the image/photo to upload.
-   * @param {String} input.date - Represents the date when the photo was taken.
+   * @param {String} input.date - Represents the date when the photo was taken. If you can extract this information from the EXIF data, it's better because it's more reliable.
    * @param {Object} input.coordinates - Represents the coordinates of the image/photo.
    * @return {Promise} - Returns a Promise that, when fulfilled, will either return an JSON Object with the requested
    * data or an Error with the problem.
@@ -30,8 +30,6 @@ export abstract class Image {
     if (input.date) {
       form.append('date', input.date.toISOString());
     }
-
-    console.log('FORM DATA!', form);
 
     return this.httpRef.makeRequest({
       method: 'POST',

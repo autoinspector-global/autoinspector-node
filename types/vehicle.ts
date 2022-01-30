@@ -22,7 +22,7 @@ export type VehicleUse =
   | 'TRANSPORTE DE CARGA DE SUSTANCIAS PELIGROSAS'
   | 'SERVICIO DE ALQUILER SIN CONDUCTOR';
 
-export type VehicleTypes = 'car' | 'moto';
+export type VehicleType = 'car' | 'moto';
 
 /**
  * Represents the vehicle configuration template for run the validations.
@@ -94,7 +94,7 @@ export interface IVehicle {
   /**
    * Type: The type of vehicle.
    */
-  type: VehicleTypes;
+  type: VehicleType;
   /**
    * Color: The color of the vehicle.
    */

@@ -1,10 +1,10 @@
 import { IHeaders } from '../types/http';
 
 export class Helper {
-  static buildOptionalHeaders(accessToken?: string): IHeaders | undefined {
-    if (accessToken) {
+  static buildOptionalHeaders(access_topken?: string): IHeaders | undefined {
+    if (access_topken) {
       return {
-        Authorization: `Bearer ${accessToken}`,
+        Authorization: `Bearer ${access_topken}`,
       };
     }
 

@@ -5,6 +5,8 @@ import {
   IInspectionUpdateCommonParams,
 } from './inspection';
 
+export type PeopleType = 'person';
+
 export interface IPeopleConfiguration extends IConfigurationCommonValidations {
   /**
    * full_name: `Validation that verifies the full name that appears in the id photo is the same as declared.`.

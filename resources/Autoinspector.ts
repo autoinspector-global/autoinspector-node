@@ -1,22 +1,22 @@
 import { IAutoinspector } from '../types/autoinspector';
 import { HTTPClient } from './HTTPClient';
-import { OAuth20 } from './OAuth20';
 import pkg from '../package.json';
 import { Inspections } from './Inspections';
+import { OAuth } from './OAuth';
 
 /**
  * @classdesc Represents the Autoinspector SDK. It allows the user to make every call to the API with a single function.
  * @class
  */
 export class Autoinspector {
-  public oauth: OAuth20;
+  public oauth: OAuth;
   public inspections: Inspections;
 
   /**
    * Create Autoinspector SDK.
    * @constructor
    * @see {@link https://autoinspector.com.ar/docs/api/start}
-   * @param {String} apikey - The apikey for authentication.
+   * @param input - An object with credentials and configuration.
    */
   constructor(input: IAutoinspector) {
     if (typeof input.apikey !== 'string') {
@@ -33,7 +33,7 @@ export class Autoinspector {
       pathPrefix: '/v1',
     });
 
-    this.oauth = new OAuth20(httpClient, input.oauthCredentials || {});
+    this.oauth = new OAuth(httpClient, input.oauthCredentials || {});
     this.inspections = new Inspections(httpClient);
   }
 }

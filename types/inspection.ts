@@ -1,11 +1,15 @@
 import { IConsumer } from './consumer';
+import { GoodsType } from './goods';
+import { MachineryType } from './machinery';
+import { PeopleType } from './people';
+import { VehicleType } from './vehicle';
 
 export type InspectionCompletedBy = 'client' | 'expiration';
 
 export interface IValidation {
   confidence: number;
   valid: boolean;
-  id: string;
+  _id: string;
   type: string;
 }
 
@@ -108,7 +112,7 @@ export type IDamage =
 export interface IImageDamage {
   percentage: number;
   part: IImageDamagePart;
-  damage: IDamage;
+  type: IDamage;
 }
 
 export interface IImage {
@@ -126,7 +130,7 @@ export interface IImage {
 export type KindOf = 'easy' | 'deep' | 'damage' | 'full_control';
 
 export interface IInspectionUpdateCommonParams
-  extends Pick<IInspectionCommonParams, 'consumer' | 'metadata' | 'accessToken'> {
+  extends Pick<IInspectionCommonParams, 'consumer' | 'metadata'> {
   productId: string;
 }
 
@@ -136,7 +140,7 @@ export interface IInspectionCommonParams<P = IProducer> {
   kindOf?: KindOf;
   mode?: InspectionMode;
   metadata?: object;
-  accessToken?: string;
+  access_token?: string;
 }
 
 export interface IFinishInspection extends IGetInspection {}
@@ -158,11 +162,13 @@ export interface IGetInspection {
   inspectionId: string;
 }
 
+export type ProductTypes = GoodsType | VehicleType | PeopleType | MachineryType;
+
 export interface IProduct {
   images: IImage[];
   extraImages: string[];
   _id: string;
-  type: InspectionType;
+  type: ProductTypes;
 }
 
 export interface ICreateInspectionProducer {
@@ -178,7 +184,7 @@ export interface IProducer {
 
 export interface IInspection {
   veredict: InspectionVeredict;
-  productType: InspectionType;
+  type: InspectionType;
   status: InspectionStatus;
   completedBy: InspectionCompletedBy;
   products: IProduct[];

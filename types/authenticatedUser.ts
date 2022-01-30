@@ -10,11 +10,11 @@ export interface IListInspections {
 }
 
 export interface IAuthenticatedUserCommonParams {
-  accessToken: string;
+  access_token: string;
 }
 
 export interface IAuthenticatedUserListInspections extends IAuthenticatedUserCommonParams {
-  scope: 'all' | 'mine';
+  scope: 'all' | 'me';
   params: IListInspections;
   membershipId: string;
 }
@@ -52,7 +52,7 @@ export interface IInspectionItemOutput {
 
 export interface IListAuthenticatedUserInspectionsOutput {
   pagination: IPaginationOutput;
-  inspection: IInspectionItemOutput[];
+  inspections: IInspectionItemOutput[];
 }
 
 export interface IListMemberships extends IAuthenticatedUserCommonParams {}

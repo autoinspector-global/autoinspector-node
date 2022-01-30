@@ -6,27 +6,27 @@ import {
   IRefreshAccessTokenOutput,
 } from '../types/oauth20';
 import { HTTPClient } from './HTTPClient';
-import { OAuthUser } from './OAuthUser';
+import { User } from './User';
 
 /**
  * @classdesc Represents the class that has the responsability for make the request to every endpoint about oauth.
  * @class
  */
-export class OAuth20 {
+export class OAuth {
   private credentials: Partial<IOAuth20Credentials>;
-  public user: OAuthUser;
+  public user: User;
 
   /**
    * Create OAuth20 instance to implement and execute methods in another class.
    * @constructor
    * @param httpClient - The httpClient that needs to be injected in the constructor. This is done by this way for inherit the http configuration from the Autoinspector constructor.
    * @param credentials - An object with the neccessary credentials for interact with oauth endpoints.
-   * @param {String} credentials.clientappId - Represents the identification value that is generated when register an application into Autoinspector Dashboard.
-   * @param {String} credentials.clientSecret - Represents the token that is generated when register an application in Autoinspector Dashboard. It's an sensitive key. so it will only be exported/used in back channel.
+   * @param {String} credentials.client_app_id - Represents the identification value that is generated when register an application into Autoinspector Dashboard.
+   * @param {String} credentials.client_secret - Represents the token that is generated when register an application in Autoinspector Dashboard. It's an sensitive key. so it will only be exported/used in back channel.
    */
   constructor(private readonly httpClient: HTTPClient, credentials: Partial<IOAuth20Credentials>) {
     this.credentials = credentials;
-    this.user = new OAuthUser(httpClient);
+    this.user = new User(httpClient);
   }
 
   /**
@@ -52,7 +52,7 @@ export class OAuth20 {
   /**
    * Refresh some access_token for obtain a new one. This is useful for keep a long-term access_token.
    * @param input - An object that contains the essential information refresh the token.
-   * @param {String} input.refreshToken - Represents the refresh token received when exchanged the code for an access_token.
+   * @param {String} input.refresh_token - Represents the refresh token received when exchanged the code for an access_token.
    * @return {Promise} - Returns a Promise that, when fulfilled, will either return an JSON Object with the requested
    * data or an Error with the problem.
    */

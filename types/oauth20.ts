@@ -1,6 +1,6 @@
 export interface IOAuth20Credentials {
-  clientappId: string;
-  clientSecret: string;
+  client_app_id: string;
+  client_secret: string;
 }
 
 export interface IExchangeCodeForAccessToken {
@@ -14,7 +14,7 @@ export interface IExchangeCodeForAccessTokenOutput {
 }
 
 export interface IRefreshAccessToken {
-  refreshToken: string;
+  refresh_token: string;
 }
 
 export interface IRefreshAccessTokenOutput {

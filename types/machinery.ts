@@ -10,7 +10,7 @@ export type MachineryPurpose = 'Agrícola' | 'Vial' | 'Industrial';
 
 export type MachineryUse = 'OFICIAL' | 'PRIVADO' | 'PÚBLICO';
 
-export type MachineryTypes =
+export type MachineryType =
   | 'tractor'
   | 'combine_harvester'
   | 'sprayer'
@@ -50,6 +50,7 @@ export interface IMachineryConfiguration extends IConfigurationCommonValidations
    * purpose: `Validation that verifies the purpose that appears in the identification product card is the same as declared.`
    */
   purpose: IConfiguration;
+
   /**
    * use: `Validation that verifies the use that appears in the identification product card is the same as declared.`
    */
@@ -89,7 +90,7 @@ export interface IMachinery {
   /**
    * type: `The type of the machinery.`
    */
-  type: MachineryTypes;
+  type: MachineryType;
   /**
    * configuration: `The validation configuration template to be attached to the machinery.`
    */
