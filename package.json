@@ -1,6 +1,6 @@
 {
   "name": "autoinspector",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Autoinspector API wrapper",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
