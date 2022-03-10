@@ -37,7 +37,9 @@ export abstract class Image {
       body: form,
       headers: {
         ...form.getHeaders(),
+        ...(input.imageToken ? { 'x-image-token': input.imageToken } : {}),
       },
+      withoutPredefinedHeaders: !!input.imageToken,
     });
   }
 }

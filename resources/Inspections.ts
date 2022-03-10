@@ -1,5 +1,5 @@
 import { IAPISucessResponse } from '../types/api';
-import { IFinishInspection, IGetInspection, IInspection } from '../types/inspection';
+import { IFinishInspection, IGetInspection, IImageToken, IInspection } from '../types/inspection';
 import { IPagination, IPaginationResponse } from '../types/pagination';
 import { HTTPClient } from './HTTPClient';
 import { Products } from './Products';
@@ -39,6 +39,18 @@ export class Inspections extends Products {
     return this.httpClient.makeRequest({
       method: 'GET',
       path: `/inspection/${input.inspectionId}`,
+    });
+  }
+
+  /**
+   * Generates an image token.
+   * @return {Promise} - Returns a Promise that, when fulfilled, will either return an JSON Object with the requested
+   * data or an Error with the problem.
+   */
+  generateImageToken(): Promise<IImageToken> {
+    return this.httpClient.makeRequest({
+      method: 'POST',
+      path: `/inspection/image/token`,
     });
   }
 

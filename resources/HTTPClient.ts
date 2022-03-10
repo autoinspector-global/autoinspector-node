@@ -42,7 +42,7 @@ export class HTTPClient {
     const options = {
       headers: {
         ...input.headers,
-        ...this.headers,
+        ...(!input.withoutPredefinedHeaders ? this.headers : {}),
       },
       params: input.params,
       timeout: this.timeout,

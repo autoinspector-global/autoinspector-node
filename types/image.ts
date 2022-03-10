@@ -71,6 +71,7 @@ export interface ICoordinates {
 export interface IUploadImage {
   coordinates?: ICoordinates;
   date?: Date;
+  imageToken?: string;
   side: ImageSide;
   image: ReadStream;
   productId: string;

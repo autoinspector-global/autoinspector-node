@@ -182,6 +182,10 @@ export interface IProducer {
   internalId: string;
 }
 
+export interface IImageToken {
+  token: string;
+}
+
 export interface IInspection {
   veredict: InspectionVeredict;
   type: InspectionType;

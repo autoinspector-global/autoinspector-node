@@ -14,6 +14,7 @@ export interface IMakeRequest {
   body?: any;
   params?: IParams;
   headers?: IHeaders;
+  withoutPredefinedHeaders?: boolean;
 }
 
 export interface IHTTPClient {
