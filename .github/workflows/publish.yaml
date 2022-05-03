@@ -16,8 +16,12 @@ jobs:
           npm install
           npm test
 
-      - name: Start release pipeline
+      - name: compile typescript code
+        run: npm run build
+
+      - name: Publish package version
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
+          npm ci
           npm publish
