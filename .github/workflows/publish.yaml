@@ -17,7 +17,9 @@ jobs:
           npm test
 
       - name: Start release pipeline
-        uses: mathieudutour/github-tag-action@v6.0
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           npm ci
           npm run semantic-release
