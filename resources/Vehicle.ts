@@ -6,9 +6,6 @@ import { Helper } from './Helper';
 import { HTTPClient } from './HTTPClient';
 import { Image } from './Image';
 
-/**
- * @deprecated since version 2.0
- */
 export class Vehicle extends Image implements IProductMethods {
   constructor(private readonly httpClient: HTTPClient) {
     super(httpClient);

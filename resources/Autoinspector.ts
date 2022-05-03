@@ -1,9 +1,8 @@
+import pkg from '../package.json';
 import { IAutoinspector } from '../types/autoinspector';
 import { HTTPClient } from './HTTPClient';
-import pkg from '../package.json';
 import { Inspections } from './Inspections';
 import { OAuth } from './OAuth';
-import { Template } from './Template';
 
 /**
  * @classdesc Represents the Autoinspector SDK. It allows the user to make every call to the API with a single function.
@@ -12,7 +11,6 @@ import { Template } from './Template';
 export class Autoinspector {
   public oauth: OAuth;
   public inspections: Inspections;
-  public templates: Template;
 
   /**
    * Create Autoinspector SDK.
@@ -37,6 +35,5 @@ export class Autoinspector {
 
     this.oauth = new OAuth(httpClient, input.oauthCredentials || {});
     this.inspections = new Inspections(httpClient);
-    this.templates = new Template(httpClient);
   }
 }
