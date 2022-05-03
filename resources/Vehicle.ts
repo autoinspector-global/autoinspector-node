@@ -6,6 +6,9 @@ import { Helper } from './Helper';
 import { HTTPClient } from './HTTPClient';
 import { Image } from './Image';
 
+/**
+ * @deprecated since version 2.0
+ */
 export class Vehicle extends Image implements IProductMethods {
   constructor(private readonly httpClient: HTTPClient) {
     super(httpClient);
@@ -19,7 +22,7 @@ export class Vehicle extends Image implements IProductMethods {
    * @param {String} input.mode - Represents the mode of the inspection. See more details: {@link https://www.autoinspector.com.ar/docs/api/start#inspection_mode}
    * @param {String} input.kindOf - Represents the template that inspection will have. This only matters if the input.mode is normal.
    * @param {Object} input.metadata - Represents a dinamic object where you can store any key-value pairs.
-   *  @param {Object} input.producer - Represents the entity that has the ownership of the inspection to be created.
+   * @param {Object} input.producer - Represents the entity that has the ownership of the inspection to be created.
    * @param {Object} input.access_token - Represents the token that belongs to some user into Autoinspector and was generated thanks to OAuth 2.0. When pass this argument, the apikey will not being send.
    * @return {Promise} - Returns a Promise that, when fulfilled, will either return an JSON Object with the requested
    * data or an Error with the problem.

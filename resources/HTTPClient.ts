@@ -36,7 +36,7 @@ export class HTTPClient {
    * @return {Promise} - Returns a Promise that, when fulfilled, will either return an JSON Object with the requested
    * data or an Error with the problem.
    */
-  public makeRequest(input: IMakeRequest): Promise<any> {
+  public makeRequest<F = any>(input: IMakeRequest): Promise<F> {
     const path = `${this.baseURL}${this.pathPrefix}${input.path}`;
 
     const options = {
@@ -55,7 +55,7 @@ export class HTTPClient {
           .then((res: AxiosResponse<any>) => {
             return res.data;
           })
-          .catch((err) => this.handleError(err));
+          .catch((err: any) => this.handleError(err));
 
       case 'PUT':
         return axios
@@ -63,7 +63,7 @@ export class HTTPClient {
           .then((res: AxiosResponse<any>) => {
             return res.data;
           })
-          .catch((err) => this.handleError(err));
+          .catch((err: any) => this.handleError(err));
 
       case 'POST':
         return axios
@@ -71,7 +71,7 @@ export class HTTPClient {
           .then((res: AxiosResponse<any>) => {
             return res.data;
           })
-          .catch((err) => this.handleError(err));
+          .catch((err: any) => this.handleError(err));
 
       case 'DELETE':
         return axios
@@ -79,7 +79,7 @@ export class HTTPClient {
           .then((res: AxiosResponse<any>) => {
             return res.data;
           })
-          .catch((err) => this.handleError(err));
+          .catch((err: any) => this.handleError(err));
     }
   }
 

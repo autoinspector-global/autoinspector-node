@@ -13,7 +13,7 @@ export interface IValidation {
   type: string;
 }
 
-export type InspectionType = 'goods' | 'people' | 'vehicle' | 'machinery';
+export type InspectionType = 'goods' | 'people' | 'vehicle' | 'machinery' | 'car' | 'moto';
 
 export type InspectionVeredict = 'approved' | 'disapproved' | 'not_defined' | 'not_provided';
 
@@ -139,6 +139,21 @@ export interface IInspectionCommonParams<P = IProducer> {
   producer: P;
   kindOf?: KindOf;
   mode?: InspectionMode;
+  metadata?: object;
+  access_token?: string;
+}
+
+export interface IInputValue {
+  label: string;
+  value: string | Buffer;
+}
+
+export interface IIInspectionCommonParamsV2<P = IProducer> {
+  inputValues: IInputValue[];
+  consumer: IConsumer;
+  producer: P;
+  templateId: string;
+  initialStatus?: 'created' | 'started';
   metadata?: object;
   access_token?: string;
 }
