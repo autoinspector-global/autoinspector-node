@@ -5,3 +5,4 @@
 /coverage
 ./coverage
 *.sh
+./build-sdk.sh
