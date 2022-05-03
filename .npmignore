@@ -1,3 +1,5 @@
+/.github
+./.github
 /resources
 /test
 /types
@@ -6,3 +8,6 @@ build-sdk.sh
 index.ts
 tsconfig.json
 .prettierrc.json
+jest.config.js
+.gitignore
+.eslintrc.json

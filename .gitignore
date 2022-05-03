@@ -2,3 +2,6 @@
 /dist
 /node_modules
 /test
+/coverage
+./coverage
+*.sh
