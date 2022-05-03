@@ -43,3 +43,4 @@ jobs:
         with:
           token: ${{ secrets.NPM_TOKEN }}
           tag: ${{ steps.set_version.outputs.noDash }}
+          check-version: false
