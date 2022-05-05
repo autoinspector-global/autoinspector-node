@@ -29,11 +29,16 @@ export class Machinery extends Image implements IProductMethods {
    * data or an Error with the problem.
    */
   create(input: ICreateMachineryInspection): Promise<ICreateInspectionOutput> {
+    const { form } = Helper.buildFormData(input);
+
     return this.httpClient.makeRequest({
       method: 'POST',
       path: `/inspection/machinery`,
-      body: input,
-      headers: Helper.buildOptionalHeaders(input?.access_token),
+      body: form,
+      headers: {
+        ...Helper.buildOptionalHeaders(input?.access_token),
+        ...form.getHeaders(),
+      },
     });
   }
 
@@ -48,10 +53,13 @@ export class Machinery extends Image implements IProductMethods {
    * data or an Error with the problem.
    */
   update(input: IUpdateMachineryInspection): Promise<IUpdateResourceResponse> {
+    const { form } = Helper.buildFormData(input);
+
     return this.httpClient.makeRequest({
       method: 'PUT',
       path: `/inspection/machinery/${input.productId}`,
-      body: input,
+      body: form,
+      headers: form.getHeaders(),
     });
   }
 }

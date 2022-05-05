@@ -1,5 +1,5 @@
 import { Colors } from './colors';
-import { ICreateInspectionProducer, IIInspectionCommonParamsV2 } from './inspection';
+import { ICreateInspectionParamsV2, IUpdateInspectionParamsV2 } from './inspection';
 
 export interface ICar {
   /**
@@ -25,7 +25,7 @@ export interface ICar {
   /**
    * Year: The year of the vehicle.
    */
-  year?: string;
+  year?: number;
 
   /**
    * make: The make/brand of the vehicle.
@@ -43,7 +43,10 @@ export interface ICar {
   chassis?: string;
 }
 
-export interface ICreateCarInspection
-  extends IIInspectionCommonParamsV2<ICreateInspectionProducer> {
+export interface ICreateCarInspection extends ICreateInspectionParamsV2 {
   car: ICar;
+}
+
+export interface IUpdateCarInspection extends IUpdateInspectionParamsV2 {
+  car?: Partial<ICar>;
 }

@@ -1,4 +1,4 @@
-export interface IProducer {
+export interface ICreateInspectionProducer {
   mustMatchUser?: boolean;
   internalId?: string;
 }

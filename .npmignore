@@ -1,7 +1,8 @@
 /.github
 ./.github
 /resources
-/test
+./tests
+/tests
 /types
 /.vscode
 build-sdk.sh

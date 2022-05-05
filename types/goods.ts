@@ -1,8 +1,10 @@
 import { IConfiguration, IConfigurationCommonValidations } from './configuration';
 import {
+  ICreateInspectionParamsV2,
   ICreateInspectionProducer,
   IInspectionCommonParams,
   IInspectionUpdateCommonParams,
+  IUpdateInspectionParamsV2,
 } from './inspection';
 
 export interface IGoodConfiguration extends IConfigurationCommonValidations {
@@ -81,22 +83,18 @@ export interface IGood {
    * price: `The price of the good item.`
    */
   price: string;
-  /**
-   * configuration: `Validation Configuration Template to be attached to the Good Inspection Item. If it not setted, the default configuration will be applied.`
-   */
-  configuration?: Partial<IGoodConfiguration>;
 }
 
 /**
  * Represents the object to be sended when create an inspection of type vehicle.
  */
-export interface ICreateGoodsInspection extends IInspectionCommonParams<ICreateInspectionProducer> {
+export interface ICreateGoodsInspection extends ICreateInspectionParamsV2 {
   goods: IGood[];
 }
 
 /**
  * Represents the object to be sended when create an inspection of type vehicle.
  */
-export interface IUpdateGoodsInspection extends IInspectionUpdateCommonParams {
+export interface IUpdateGoodsInspection extends IUpdateInspectionParamsV2 {
   good?: Partial<IGood>;
 }

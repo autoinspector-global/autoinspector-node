@@ -158,6 +158,13 @@ export interface IIInspectionCommonParamsV2<P = IProducer> {
   access_token?: string;
 }
 
+export interface IUpdateInspectionParamsV2 {
+  productId: string;
+  inputValues?: IInputValue[];
+  consumer?: Partial<IConsumer>;
+  metadata?: object;
+}
+
 export interface IFinishInspection extends IGetInspection {}
 
 export interface ICreateInspectionGoodsOutput extends ICreateInspectionOutputCommon {
@@ -213,3 +220,5 @@ export interface IInspection {
 }
 
 export interface IInspectionHandler {}
+
+export type ICreateInspectionParamsV2 = IIInspectionCommonParamsV2<ICreateInspectionProducer>;

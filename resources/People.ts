@@ -24,11 +24,16 @@ export class People extends Image implements IProductMethods {
    * data or an Error with the problem.
    */
   create(input: ICreatePeopleInspection): Promise<ICreateInspectionOutput> {
+    const { form } = Helper.buildFormData(input);
+
     return this.httpClient.makeRequest({
       method: 'POST',
       path: `/inspection/people`,
-      body: input,
-      headers: Helper.buildOptionalHeaders(input.access_token),
+      body: form,
+      headers: {
+        ...Helper.buildOptionalHeaders(input.access_token),
+        ...form.getHeaders(),
+      },
     });
   }
 
@@ -41,10 +46,13 @@ export class People extends Image implements IProductMethods {
    * data or an Error with the problem.
    */
   update(input: IUpdatePeopleInspection): Promise<IUpdateResourceResponse> {
+    const { form } = Helper.buildFormData(input);
+
     return this.httpClient.makeRequest({
       method: 'PUT',
       path: `/inspection/people/${input.productId}`,
-      body: input,
+      body: form,
+      headers: form.getHeaders(),
     });
   }
 }

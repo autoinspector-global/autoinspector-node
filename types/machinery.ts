@@ -1,9 +1,11 @@
 import { Colors } from './colors';
 import { IConfiguration, IConfigurationCommonValidations } from './configuration';
 import {
+  ICreateInspectionParamsV2,
   ICreateInspectionProducer,
   IInspectionCommonParams,
   IInspectionUpdateCommonParams,
+  IUpdateInspectionParamsV2,
 } from './inspection';
 
 export type MachineryPurpose = 'Agrícola' | 'Vial' | 'Industrial';
@@ -73,7 +75,7 @@ export interface IMachinery {
   /**
    * year: `The year of the machinery.`
    */
-  year?: string;
+  year?: number;
   /**
    * model: `The model of the machinery.`
    */
@@ -97,11 +99,10 @@ export interface IMachinery {
   configuration?: Partial<IMachineryConfiguration>;
 }
 
-export interface ICreateMachineryInspection
-  extends IInspectionCommonParams<ICreateInspectionProducer> {
+export interface ICreateMachineryInspection extends ICreateInspectionParamsV2 {
   machinery: IMachinery;
 }
 
-export interface IUpdateMachineryInspection extends IInspectionUpdateCommonParams {
+export interface IUpdateMachineryInspection extends IUpdateInspectionParamsV2 {
   machinery?: Partial<IMachinery>;
 }
