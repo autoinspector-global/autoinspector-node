@@ -2,9 +2,22 @@ import { IAPISucessResponse } from '../types/api';
 import { IUploadImage } from '../types/image';
 import { HTTPClient } from './HTTPClient';
 import FormData from 'form-data';
+import { IImageToken } from '../types/inspection';
 
-export abstract class Image {
+export class Image {
   constructor(private readonly httpRef: HTTPClient) {}
+
+  /**
+   * Generates an image token.
+   * @return {Promise} - Returns a Promise that, when fulfilled, will either return an JSON Object with the requested
+   * data or an Error with the problem.
+   */
+  generateToken(): Promise<IImageToken> {
+    return this.httpRef.makeRequest({
+      method: 'POST',
+      path: `/inspection/image/token`,
+    });
+  }
 
   /**
    * Upload an image for specific product inspection item. For the moment, this method is only available for the inspection with mode full_control.

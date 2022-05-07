@@ -1,15 +1,12 @@
 import { IUpdateResourceResponse } from '../types/api';
 import { ICreateInspectionOutput } from '../types/inspection';
-import { IProductMethods } from '../types/productMethods';
+import { IProductService } from '../types/productMethods';
 import { ICreateVehicleInspection, IUpdateVehicleInspection } from '../types/vehicle';
 import { Helper } from './Helper';
 import { HTTPClient } from './HTTPClient';
-import { Image } from './Image';
 
-export class Vehicle extends Image implements IProductMethods {
-  constructor(private readonly httpClient: HTTPClient) {
-    super(httpClient);
-  }
+export class Vehicle implements IProductService {
+  constructor(private readonly httpClient: HTTPClient) {}
 
   /**
    * Create an inspection of type vehicle

@@ -6,7 +6,6 @@
 /types
 /.vscode
 build-sdk.sh
-index.ts
 tsconfig.json
 .prettierrc.json
 jest.config.js

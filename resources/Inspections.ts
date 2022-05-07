@@ -43,18 +43,6 @@ export class Inspections extends Products {
   }
 
   /**
-   * Generates an image token.
-   * @return {Promise} - Returns a Promise that, when fulfilled, will either return an JSON Object with the requested
-   * data or an Error with the problem.
-   */
-  generateImageToken(): Promise<IImageToken> {
-    return this.httpClient.makeRequest({
-      method: 'POST',
-      path: `/inspection/image/token`,
-    });
-  }
-
-  /**
    * Get a list of n inspections with pagination.
    * @param input - An object that contains filters for list the inspections.
    * @param {Number} input.page - Represents the specific page that you want to retrieve the inspections.

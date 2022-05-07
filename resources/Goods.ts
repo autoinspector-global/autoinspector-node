@@ -1,15 +1,12 @@
 import { IUpdateResourceResponse } from '../types/api';
 import { ICreateGoodsInspection, IUpdateGoodsInspection } from '../types/goods';
 import { ICreateInspectionGoodsOutput } from '../types/inspection';
-import { IProductMethods } from '../types/productMethods';
+import { IProductService } from '../types/productMethods';
 import { Helper } from './Helper';
 import { HTTPClient } from './HTTPClient';
-import { Image } from './Image';
 
-export class Goods extends Image implements IProductMethods {
-  constructor(private readonly httpClient: HTTPClient) {
-    super(httpClient);
-  }
+export class Goods implements IProductService {
+  constructor(private readonly httpClient: HTTPClient) {}
 
   /**
    * Create an inspection that will contains goods.

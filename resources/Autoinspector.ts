@@ -1,6 +1,7 @@
 import pkg from '../package.json';
 import { IAutoinspector } from '../types/autoinspector';
 import { HTTPClient } from './HTTPClient';
+import { Image } from './Image';
 import { Inspections } from './Inspections';
 import { OAuth } from './OAuth';
 
@@ -10,6 +11,7 @@ import { OAuth } from './OAuth';
  */
 export class Autoinspector {
   public oauth: OAuth;
+  public images: Image;
   public inspections: Inspections;
 
   /**
@@ -35,5 +37,6 @@ export class Autoinspector {
 
     this.oauth = new OAuth(httpClient, input.oauthCredentials || {});
     this.inspections = new Inspections(httpClient);
+    this.images = new Image(httpClient);
   }
 }

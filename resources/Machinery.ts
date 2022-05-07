@@ -1,19 +1,16 @@
 import { IUpdateResourceResponse } from '../types/api';
 import { ICreateInspectionOutput } from '../types/inspection';
 import { ICreateMachineryInspection, IUpdateMachineryInspection } from '../types/machinery';
-import { IProductMethods } from '../types/productMethods';
+import { IProductService } from '../types/productMethods';
 import { Helper } from './Helper';
 import { HTTPClient } from './HTTPClient';
-import { Image } from './Image';
 
 /**
  * @classdesc Represents the class that handle all the requests related to an inspection of type machinery.
  * @class
  */
-export class Machinery extends Image implements IProductMethods {
-  constructor(private readonly httpClient: HTTPClient) {
-    super(httpClient);
-  }
+export class Machinery implements IProductService {
+  constructor(private readonly httpClient: HTTPClient) {}
 
   /**
    * Create an inspection of type machinery

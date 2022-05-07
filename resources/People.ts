@@ -1,15 +1,13 @@
 import { IUpdateResourceResponse } from '../types/api';
 import { ICreateInspectionOutput } from '../types/inspection';
 import { ICreatePeopleInspection, IUpdatePeopleInspection } from '../types/people';
-import { IProductMethods } from '../types/productMethods';
+import { IProductService } from '../types/productMethods';
 import { Helper } from './Helper';
 import { HTTPClient } from './HTTPClient';
 import { Image } from './Image';
 
-export class People extends Image implements IProductMethods {
-  constructor(private readonly httpClient: HTTPClient) {
-    super(httpClient);
-  }
+export class People implements IProductService {
+  constructor(private readonly httpClient: HTTPClient) {}
   /**
    * Create an inspection of type people
    * @param input - An object that contains the essential information for create an inspection.
