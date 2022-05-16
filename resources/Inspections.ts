@@ -1,6 +1,13 @@
 import { IAPISucessResponse } from '../types/api';
-import { IFinishInspection, IGetInspection, IImageToken, IInspection } from '../types/inspection';
+import {
+  IFinishInspection,
+  IGetInspection,
+  IImageToken,
+  IInspection,
+  IUpdateInspection,
+} from '../types/inspection';
 import { IPagination, IPaginationResponse } from '../types/pagination';
+import { Helper } from './Helper';
 import { HTTPClient } from './HTTPClient';
 import { Products } from './Products';
 
@@ -28,6 +35,17 @@ export class Inspections extends Products {
     });
   }
 
+  update(input: IUpdateInspection): Promise<IAPISucessResponse> {
+    const { form } = Helper.buildFormData(input);
+
+    return this.httpClient.makeRequest({
+      method: 'PUT',
+      path: `/inspection/${input.inspectionId}`,
+      body: form,
+      headers: form.getHeaders(),
+    });
+  }
+
   /**
    * Get a specific inspection object.
    * @param input - An object that contains the essential information for upload the image.
@@ -39,18 +57,6 @@ export class Inspections extends Products {
     return this.httpClient.makeRequest({
       method: 'GET',
       path: `/inspection/${input.inspectionId}`,
-    });
-  }
-
-  /**
-   * Generates an image token.
-   * @return {Promise} - Returns a Promise that, when fulfilled, will either return an JSON Object with the requested
-   * data or an Error with the problem.
-   */
-  generateImageToken(): Promise<IImageToken> {
-    return this.httpClient.makeRequest({
-      method: 'POST',
-      path: `/inspection/image/token`,
     });
   }
 

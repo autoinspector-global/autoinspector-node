@@ -18,14 +18,15 @@ export class Car {
     });
   }
 
-  async update(input: IUpdateCarInspection): Promise<IUpdateResourceResponse> {
-    const { form } = Helper.buildFormData(input);
-
+  async update(
+    input: Pick<IUpdateCarInspection, 'car' | 'productId'>
+  ): Promise<IUpdateResourceResponse> {
     return await this.httpClient.makeRequest({
       method: 'PUT',
       path: `/inspection/car/${input.productId}`,
-      body: form,
-      headers: form.getHeaders(),
+      body: {
+        car: input.car,
+      },
     });
   }
 }

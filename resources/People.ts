@@ -1,4 +1,3 @@
-import { IUpdateResourceResponse } from '../types/api';
 import { ICreateInspectionOutput } from '../types/inspection';
 import { ICreatePeopleInspection, IUpdatePeopleInspection } from '../types/people';
 import { IProductMethods } from '../types/productMethods';
@@ -34,25 +33,6 @@ export class People extends Image implements IProductMethods {
         ...Helper.buildOptionalHeaders(input.access_token),
         ...form.getHeaders(),
       },
-    });
-  }
-
-  /**
-   * Update an inspection of type people
-   * @param input - An object that contains the essential information for create an inspection.
-   * @param {Object} input.consumer - Represents the user who do the inspection.
-   * @param {Object} input.metadata - Represents a dinamic object where you can store any key-value pairs.
-   * @return {Promise} - Returns a Promise that, when fulfilled, will either return an JSON Object with the requested
-   * data or an Error with the problem.
-   */
-  update(input: IUpdatePeopleInspection): Promise<IUpdateResourceResponse> {
-    const { form } = Helper.buildFormData(input);
-
-    return this.httpClient.makeRequest({
-      method: 'PUT',
-      path: `/inspection/people/${input.productId}`,
-      body: form,
-      headers: form.getHeaders(),
     });
   }
 }

@@ -2,9 +2,20 @@ import { IAPISucessResponse } from '../types/api';
 import { IUploadImage } from '../types/image';
 import { HTTPClient } from './HTTPClient';
 import FormData from 'form-data';
+import { IImageToken } from '../types/inspection';
 
-export abstract class Image {
-  constructor(private readonly httpRef: HTTPClient) {}
+export class Image {
+  constructor(private readonly httpClient: HTTPClient) {}
+
+  generateToken(input: Omit<IUploadImage, 'image' | 'imageToken'>): Promise<IImageToken> {
+    const { productId, ...restImage } = input;
+
+    return this.httpClient.makeRequest({
+      method: 'POST',
+      path: `/inspection/image/${productId}`,
+      body: restImage,
+    });
+  }
 
   /**
    * Upload an image for specific product inspection item. For the moment, this method is only available for the inspection with mode full_control.
@@ -17,21 +28,15 @@ export abstract class Image {
    * @return {Promise} - Returns a Promise that, when fulfilled, will either return an JSON Object with the requested
    * data or an Error with the problem.
    */
-  uploadImage(input: IUploadImage): Promise<IAPISucessResponse> {
+  upload(input: IUploadImage): Promise<IAPISucessResponse> {
     const form = new FormData();
 
-    form.append('side', input.side);
-    form.append('image', input.image);
+    const { image, ...restImage } = input;
 
-    if (input.coordinates) {
-      form.append('coordinates', JSON.stringify(input.coordinates));
-    }
+    form.append('image', image);
+    form.append('data', JSON.stringify(restImage));
 
-    if (input.date) {
-      form.append('date', input.date.toISOString());
-    }
-
-    return this.httpRef.makeRequest({
+    return this.httpClient.makeRequest({
       method: 'POST',
       path: `/inspection/image/${input.productId}`,
       body: form,

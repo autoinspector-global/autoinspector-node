@@ -32,11 +32,11 @@ export class Helper {
     return readFileSync(path);
   }
 
-  static filterInputValues(inputValues: IInputValue[]): IFilterInputValuesOutput {
+  static filterInputs(inputs: IInputValue[]): IFilterInputValuesOutput {
     const inputValuesNonFiles: IInputValue[] = [];
     const inputValuesFiles: IInputValue[] = [];
 
-    for (const inputValue of inputValues) {
+    for (const inputValue of inputs) {
       const isFile = inputValue.value instanceof Buffer || Helper.isFile(inputValue.value);
 
       if (isFile) {
@@ -60,25 +60,25 @@ export class Helper {
     };
   }
 
-  static buildFormData(input: { inputValues?: IInputValue[]; [key: string]: any }) {
+  static buildFormData(input: { inputs?: IInputValue[]; [key: string]: any }) {
     const form = new FormData();
 
-    if (!input.inputValues) {
+    if (!input.inputs) {
       form.append('data', JSON.stringify(input));
       return {
         form,
       };
     }
 
-    const { inputValues, ...rest } = input;
+    const { inputs, ...rest } = input;
 
-    const { inputValuesFiles, inputValuesNonFiles } = this.filterInputValues(inputValues);
+    const { inputValuesFiles, inputValuesNonFiles } = this.filterInputs(inputs);
 
     for (const inputFile of inputValuesFiles) {
       form.append(inputFile.label, inputFile.value);
     }
 
-    form.append('data', JSON.stringify({ ...rest, inputValues: inputValuesNonFiles }));
+    form.append('data', JSON.stringify({ ...rest, inputs: inputValuesNonFiles }));
 
     return {
       form,

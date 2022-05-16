@@ -33,4 +33,19 @@ export class Goods extends Image implements IProductMethods {
       headers: { ...Helper.buildOptionalHeaders(input.access_token), ...form.getHeaders() },
     });
   }
+
+  addGoodItem(
+    input: Pick<ICreateGoodsInspection, 'goods' | 'access_token'> & { inspectionId: string }
+  ): Promise<ICreateInspectionGoodsOutput> {
+    const { goods, inspectionId } = input;
+
+    return this.httpClient.makeRequest({
+      method: 'POST',
+      path: `/inspection/goods/${inspectionId}`,
+      body: {
+        goods,
+      },
+      headers: { ...Helper.buildOptionalHeaders(input.access_token) },
+    });
+  }
 }

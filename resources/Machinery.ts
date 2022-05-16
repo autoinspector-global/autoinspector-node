@@ -42,24 +42,13 @@ export class Machinery extends Image implements IProductMethods {
     });
   }
 
-  /**
-   * Update a machinery inspection.
-   * @param input - An object with the values to update.
-   * @param {Object} input.consumer - Represents the consumer who will do the inspection.
-   * @param {String} input.productId - Represents the unique identifier of the machinery.
-   * @param {Object} input.machinery - Represents the machinery to be attached to the inspection.
-   * @param {Object} input.metadata - Represents a dinamic object where you can store any key-value pairs.
-   * @return {Promise} - Returns a Promise that, when fulfilled, will either return an JSON Object with the requested
-   * data or an Error with the problem.
-   */
-  update(input: IUpdateMachineryInspection): Promise<IUpdateResourceResponse> {
-    const { form } = Helper.buildFormData(input);
-
+  update(
+    input: Pick<IUpdateMachineryInspection, 'machinery' | 'productId'>
+  ): Promise<IUpdateResourceResponse> {
     return this.httpClient.makeRequest({
       method: 'PUT',
       path: `/inspection/machinery/${input.productId}`,
-      body: form,
-      headers: form.getHeaders(),
+      body: input.machinery,
     });
   }
 }

@@ -148,8 +148,12 @@ export interface IInputValue {
   value: string | Buffer;
 }
 
+export interface IUpdateInspection extends Pick<IIInspectionCommonParamsV2, 'inputs' | 'consumer'> {
+  inspectionId: string;
+}
+
 export interface IIInspectionCommonParamsV2<P = IProducer> {
-  inputValues: IInputValue[];
+  inputs: IInputValue[];
   consumer: IConsumer;
   producer: P;
   templateId: string;
@@ -160,7 +164,7 @@ export interface IIInspectionCommonParamsV2<P = IProducer> {
 
 export interface IUpdateInspectionParamsV2 {
   productId: string;
-  inputValues?: IInputValue[];
+  inputs?: IInputValue[];
   consumer?: Partial<IConsumer>;
   metadata?: object;
 }
