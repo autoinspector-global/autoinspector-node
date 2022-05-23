@@ -2,7 +2,6 @@ import { IAPISucessResponse } from '../types/api';
 import {
   IFinishInspection,
   IGetInspection,
-  IImageToken,
   IInspection,
   IUpdateInspection,
 } from '../types/inspection';

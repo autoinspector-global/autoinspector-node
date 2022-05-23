@@ -69,6 +69,9 @@ export interface ITemplate {
   features: ITemplateFeature[];
 }
 
+export type TemplateType = 'built-in' | 'created';
+
 export interface ITemplateListInput {
   inspectionType?: InspectionType;
+  type?: TemplateType;
 }

@@ -7,8 +7,15 @@ export class Template {
   async list(input: ITemplateListInput = {}) {
     return await this.httpClient.makeRequest<ITemplate[]>({
       method: 'GET',
-      path: '/inspection/template/list',
+      path: '/inspection/template',
       params: input,
+    });
+  }
+
+  async retrieve(templateId: string) {
+    return await this.httpClient.makeRequest<ITemplate[]>({
+      method: 'GET',
+      path: '/inspection/template/' + templateId,
     });
   }
 }

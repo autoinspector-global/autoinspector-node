@@ -36,14 +36,12 @@ export class OAuth {
    * @return {Promise} - Returns a Promise that, when fulfilled, will either return an JSON Object with the requested
    * data or an Error with the problem.
    */
-  exchangeCodeForAccessToken(
-    input: IExchangeCodeForAccessToken
-  ): Promise<IExchangeCodeForAccessTokenOutput> {
+  exchangeCodeForAccessToken(code: string): Promise<IExchangeCodeForAccessTokenOutput> {
     return this.httpClient.makeRequest({
       method: 'POST',
       path: '/account/oauth/exchange_code',
       body: {
-        ...input,
+        code,
         ...this.credentials,
       },
     });
@@ -56,12 +54,12 @@ export class OAuth {
    * @return {Promise} - Returns a Promise that, when fulfilled, will either return an JSON Object with the requested
    * data or an Error with the problem.
    */
-  refreshAccessToken(input: IRefreshAccessToken): Promise<IRefreshAccessTokenOutput> {
+  refreshAccessToken(refreshToken: string): Promise<IRefreshAccessTokenOutput> {
     return this.httpClient.makeRequest({
       method: 'POST',
       path: '/account/oauth/refresh_token',
       body: {
-        ...input,
+        refresh_token: refreshToken,
         ...this.credentials,
       },
     });

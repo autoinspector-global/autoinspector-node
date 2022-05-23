@@ -1,4 +1,5 @@
 import { Car } from './Car';
+import { Custom } from './Custom';
 import { Goods } from './Goods';
 import { HTTPClient } from './HTTPClient';
 import { Machinery } from './Machinery';
@@ -11,6 +12,7 @@ export class Products {
   public goods: Goods;
   public car: Car;
   public moto: Moto;
+  public custom: Custom;
 
   constructor(httRef: HTTPClient) {
     this.machinery = new Machinery(httRef);
@@ -18,5 +20,6 @@ export class Products {
     this.goods = new Goods(httRef);
     this.car = new Car(httRef);
     this.moto = new Moto(httRef);
+    this.custom = new Custom(httRef);
   }
 }
