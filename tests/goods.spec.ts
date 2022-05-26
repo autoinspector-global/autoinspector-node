@@ -15,7 +15,7 @@ describe('Goods', () => {
         templateId: process.env.CI_GOODS_TEMPLATE_ID as string,
         initialStatus: 'started',
         producer: producerStub(),
-        inputValues: [
+        inputs: [
           {
             label: 'FACTURA A',
             value: path.join(__dirname, 'assets', 'gopher.png'),

@@ -14,7 +14,7 @@ describe('Machinery', () => {
         consumer: consumerStub(),
         templateId: process.env.CI_MACHINERY_TEMPLATE_ID as string,
         producer: producerStub(),
-        inputValues: [
+        inputs: [
           {
             label: 'ARCHIVO 1',
             value: path.join(__dirname, 'assets', 'gopher.png'),
@@ -38,7 +38,7 @@ describe('Machinery', () => {
         machinery: machineryStub(),
         consumer: consumerStub(),
         producer: producerStub(),
-        inputValues: [
+        inputs: [
           {
             label: 'ARCHIVO 1',
             value: path.join(__dirname, 'assets', 'gopher.png'),
@@ -54,15 +54,6 @@ describe('Machinery', () => {
           model: 'V2',
         },
         productId,
-        consumer: {
-          email: 'lucianoalvarez1212@gmail.com',
-        },
-        inputValues: [
-          {
-            label: 'TIPO DE POLIZA',
-            value: 'POLIZA A',
-          },
-        ],
       });
 
       expect(response).toEqual({ message: expect.any(String) });

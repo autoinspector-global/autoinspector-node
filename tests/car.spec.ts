@@ -14,7 +14,7 @@ describe('Car', () => {
         consumer: consumerStub(),
         templateId: process.env.CI_CAR_TEMPLATE_ID as string,
         producer: producerStub(),
-        inputValues: [
+        inputs: [
           {
             label: 'ARCHIVO 1',
             value: path.join(__dirname, 'assets', 'gopher.png'),
@@ -38,7 +38,7 @@ describe('Car', () => {
         car: carStub(),
         consumer: consumerStub(),
         producer: producerStub(),
-        inputValues: [
+        inputs: [
           {
             label: 'ARCHIVO 1',
             value: path.join(__dirname, 'assets', 'gopher.png'),
@@ -53,15 +53,6 @@ describe('Car', () => {
           model: 'RENEGADE',
         },
         productId,
-        consumer: {
-          email: 'lucianoalvarez1212@gmail.com',
-        },
-        inputValues: [
-          {
-            label: 'TIPO DE POLIZA',
-            value: 'POLIZA A',
-          },
-        ],
       });
 
       expect(response).toEqual({ message: expect.any(String) });

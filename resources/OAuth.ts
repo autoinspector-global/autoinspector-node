@@ -1,8 +1,6 @@
 import {
-  IExchangeCodeForAccessToken,
   IExchangeCodeForAccessTokenOutput,
   IOAuth20Credentials,
-  IRefreshAccessToken,
   IRefreshAccessTokenOutput,
 } from '../types/oauth20';
 import { HTTPClient } from './HTTPClient';

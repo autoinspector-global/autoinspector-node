@@ -14,7 +14,7 @@ describe('Moto', () => {
         consumer: consumerStub(),
         templateId: process.env.CI_MOTO_TEMPLATE_ID as string,
         producer: producerStub(),
-        inputValues: [
+        inputs: [
           {
             label: 'ARCHIVO 1',
             value: path.join(__dirname, 'assets', 'gopher.png'),
@@ -38,7 +38,7 @@ describe('Moto', () => {
         moto: motoStub(),
         consumer: consumerStub(),
         producer: producerStub(),
-        inputValues: [
+        inputs: [
           {
             label: 'ARCHIVO 1',
             value: path.join(__dirname, 'assets', 'gopher.png'),
@@ -56,7 +56,7 @@ describe('Moto', () => {
         consumer: {
           email: 'lucianoalvarez1212@gmail.com',
         },
-        inputValues: [
+        inputs: [
           {
             label: 'TIPO DE POLIZA',
             value: 'POLIZA A',
