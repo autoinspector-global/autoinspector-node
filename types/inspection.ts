@@ -15,7 +15,7 @@ export interface IValidation {
 
 export type InspectionType = 'goods' | 'people' | 'vehicle' | 'machinery' | 'car' | 'moto';
 
-export type InspectionVeredict = 'approved' | 'disapproved' | 'not_defined' | 'not_provided';
+export type InspectionVeredict = 'approved' | 'disapproved' | 'not_defined';
 
 export type ImageGeneratedBy = 'configuration' | 'damage_declaration' | 'full_control';
 
@@ -152,7 +152,20 @@ export interface IUpdateInspection extends Pick<IIInspectionCommonParamsV2, 'inp
   inspectionId: string;
 }
 
+export type DeliveryChannels = 'email' | 'wsp';
+
+export type Delivery =
+  | {
+      disabled: true;
+    }
+  | {
+      channel: DeliveryChannels;
+      destination: string;
+      disabled?: false;
+    };
+
 export interface IIInspectionCommonParamsV2<P = IProducer> {
+  delivery: Delivery;
   inputs: IInputValue[];
   consumer: IConsumer;
   producer: P;

@@ -5,6 +5,7 @@ import { Inspections } from './Inspections';
 import { OAuth } from './OAuth';
 import { Template } from './Template';
 import { Image } from './Image';
+import { Webhooks } from './Webhooks';
 
 /**
  * @classdesc Represents the Autoinspector SDK. It allows the user to make every call to the API with a single function.
@@ -15,6 +16,7 @@ export class Autoinspector {
   public inspections: Inspections;
   public templates: Template;
   public images: Image;
+  public webhooks: Webhooks;
 
   /**
    * Create Autoinspector SDK.
@@ -41,5 +43,6 @@ export class Autoinspector {
     this.inspections = new Inspections(httpClient);
     this.templates = new Template(httpClient);
     this.images = new Image(httpClient);
+    this.webhooks = new Webhooks();
   }
 }

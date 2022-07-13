@@ -1,4 +1,4 @@
-import { ICreateGoodsInspection } from '../types/goods';
+import { ICreateGoodsInspection, IGood } from '../types/goods';
 import { ICreateInspectionGoodsOutput } from '../types/inspection';
 import { Helper } from './Helper';
 import { HTTPClient } from './HTTPClient';
@@ -30,18 +30,14 @@ export class Goods {
     });
   }
 
-  addGoodItem(
-    input: Pick<ICreateGoodsInspection, 'goods' | 'access_token'> & { inspectionId: string }
-  ): Promise<ICreateInspectionGoodsOutput> {
-    const { goods, inspectionId } = input;
-
+  addGoods(inspectionId: string, goods: IGood[]): Promise<ICreateInspectionGoodsOutput> {
     return this.httpClient.makeRequest({
       method: 'POST',
       path: `/inspection/goods/${inspectionId}`,
       body: {
         goods,
       },
-      headers: { ...Helper.buildOptionalHeaders(input.access_token) },
+      headers: { ...Helper.buildOptionalHeaders() },
     });
   }
 }

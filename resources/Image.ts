@@ -12,7 +12,7 @@ export class Image {
 
     return this.httpClient.makeRequest({
       method: 'POST',
-      path: `/inspection/image/${productId}`,
+      path: `/inspection/image/token/${productId}`,
       body: restImage,
     });
   }
