@@ -21,7 +21,7 @@ const autoinspector = new Autoinspector({
     apikey:"YOUR_API_KEY"
 })
 
-autoinspector.inspections.vehicle.create({...})
+autoinspector.inspections.car.create({...})
 .then((res) => {
     console.log("inspection created!", res.inspectionId)
 })
@@ -41,7 +41,7 @@ const autoinspector = new Autoinspector({
 
 try {
 
-const inspection = await autoinspector.inspections.vehicle.create({...})
+const inspection = await autoinspector.inspections.car.create({...})
 
 console.log(inspection._id)
 
