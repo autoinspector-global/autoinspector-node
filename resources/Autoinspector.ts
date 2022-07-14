@@ -4,6 +4,7 @@ import { HTTPClient } from './HTTPClient';
 import { Image } from './Image';
 import { Inspections } from './Inspections';
 import { OAuth } from './OAuth';
+import { Template } from './Template';
 import { Webhooks } from './Webhooks';
 
 /**
@@ -15,6 +16,7 @@ export class Autoinspector {
   public images: Image;
   public inspections: Inspections;
   public webhooks: Webhooks;
+  public templates: Template;
 
   /**
    * Create Autoinspector SDK.
@@ -40,6 +42,7 @@ export class Autoinspector {
     this.oauth = new OAuth(httpClient, input.oauthCredentials || {});
     this.inspections = new Inspections(httpClient);
     this.images = new Image(httpClient);
+    this.templates = new Template(httpClient);
     this.webhooks = new Webhooks();
   }
 }

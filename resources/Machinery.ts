@@ -1,7 +1,7 @@
 import { IUpdateResourceResponse } from '../types/api';
 import { ICreateInspectionOutput } from '../types/inspection';
-import { ICreateMachineryInspection, IUpdateMachineryInspection } from '../types/machinery';
-import { IProductService } from '../types/productMethods';
+import { ICreateMachineryInspection, IMachinery } from '../types/machinery';
+import { IProductMethods } from '../types/productMethods';
 import { Helper } from './Helper';
 import { HTTPClient } from './HTTPClient';
 
@@ -9,7 +9,7 @@ import { HTTPClient } from './HTTPClient';
  * @classdesc Represents the class that handle all the requests related to an inspection of type machinery.
  * @class
  */
-export class Machinery implements IProductService {
+export class Machinery implements IProductMethods<ICreateMachineryInspection, Partial<IMachinery>> {
   constructor(private readonly httpClient: HTTPClient) {}
 
   /**
@@ -26,29 +26,27 @@ export class Machinery implements IProductService {
    * data or an Error with the problem.
    */
   create(input: ICreateMachineryInspection): Promise<ICreateInspectionOutput> {
+    const { form } = Helper.buildFormData(input);
+
     return this.httpClient.makeRequest({
       method: 'POST',
       path: `/inspection/machinery`,
-      body: input,
-      headers: Helper.buildOptionalHeaders(input?.access_token),
+      body: form,
+      headers: {
+        ...Helper.buildOptionalHeaders(input?.access_token),
+        ...form.getHeaders(),
+      },
     });
   }
 
-  /**
-   * Update a machinery inspection.
-   * @param input - An object with the values to update.
-   * @param {Object} input.consumer - Represents the consumer who will do the inspection.
-   * @param {String} input.productId - Represents the unique identifier of the machinery.
-   * @param {Object} input.machinery - Represents the machinery to be attached to the inspection.
-   * @param {Object} input.metadata - Represents a dinamic object where you can store any key-value pairs.
-   * @return {Promise} - Returns a Promise that, when fulfilled, will either return an JSON Object with the requested
-   * data or an Error with the problem.
-   */
-  update(input: IUpdateMachineryInspection): Promise<IUpdateResourceResponse> {
+  update(
+    productId: string,
+    machinery: Partial<Omit<IMachinery, 'type'>>
+  ): Promise<IUpdateResourceResponse> {
     return this.httpClient.makeRequest({
       method: 'PUT',
-      path: `/inspection/machinery/${input.productId}`,
-      body: input,
+      path: `/inspection/machinery/${productId}`,
+      body: machinery,
     });
   }
 }

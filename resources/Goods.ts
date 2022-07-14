@@ -1,11 +1,9 @@
-import { IUpdateResourceResponse } from '../types/api';
-import { ICreateGoodsInspection, IUpdateGoodsInspection } from '../types/goods';
+import { ICreateGoodsInspection, IGood } from '../types/goods';
 import { ICreateInspectionGoodsOutput } from '../types/inspection';
-import { IProductService } from '../types/productMethods';
 import { Helper } from './Helper';
 import { HTTPClient } from './HTTPClient';
 
-export class Goods implements IProductService {
+export class Goods {
   constructor(private readonly httpClient: HTTPClient) {}
 
   /**
@@ -22,29 +20,38 @@ export class Goods implements IProductService {
    * data or an Error with the problem.
    */
   create(input: ICreateGoodsInspection): Promise<ICreateInspectionGoodsOutput> {
+    const { form } = Helper.buildFormData(input);
+
     return this.httpClient.makeRequest({
       method: 'POST',
       path: `/inspection/goods`,
-      body: input,
-      headers: Helper.buildOptionalHeaders(input.access_token),
+      body: form,
+      headers: { ...Helper.buildOptionalHeaders(input.access_token), ...form.getHeaders() },
     });
   }
 
-  /**
-   * Update a specific product.
-   * @param input - An object that contains information that .
-   * @param {String} input.productId - Represents the product unique identifier.
-   * @param {Object} input.consumer - Represents the consumer who will do the inspection.
-   * @param {Object} input.good - The information to update of the product.
-   * @param {Object} input.metadata - Represents a dinamic object where you can store any key-value pairs.
-   * @return {Promise} - Returns a Promise that, when fulfilled, will either return an JSON Object with the requested
-   * data or an Error with the problem.
-   */
-  update(input: IUpdateGoodsInspection): Promise<IUpdateResourceResponse> {
+  push(inspectionId: string, goods: IGood[]): Promise<ICreateInspectionGoodsOutput> {
     return this.httpClient.makeRequest({
-      method: 'PUT',
-      path: `/inspection/goods/${input.productId}`,
-      body: input,
+      method: 'POST',
+      path: `/inspection/goods/${inspectionId}`,
+      body: {
+        goods,
+      },
+      headers: { ...Helper.buildOptionalHeaders() },
+    });
+  }
+
+  update(
+    productId: string,
+    good: Partial<Omit<IGood, 'type' | 'category'>>
+  ): Promise<ICreateInspectionGoodsOutput> {
+    return this.httpClient.makeRequest({
+      method: 'POST',
+      path: `/inspection/goods/${productId}`,
+      body: {
+        good,
+      },
+      headers: { ...Helper.buildOptionalHeaders() },
     });
   }
 }

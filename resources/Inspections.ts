@@ -1,6 +1,14 @@
 import { IAPISucessResponse } from '../types/api';
-import { IFinishInspection, IGetInspection, IImageToken, IInspection } from '../types/inspection';
+import { IConsumer } from '../types/consumer';
+import {
+  IFinishInspection,
+  IGetInspection,
+  IIInspectionCommonParamsV2,
+  IInspection,
+} from '../types/inspection';
 import { IPagination, IPaginationResponse } from '../types/pagination';
+import { IProducer } from '../types/producer';
+import { Helper } from './Helper';
 import { HTTPClient } from './HTTPClient';
 import { Products } from './Products';
 
@@ -35,10 +43,29 @@ export class Inspections extends Products {
    * @return {Promise} - Returns a Promise that, when fulfilled, will either return an JSON Object with the requested
    * data or an Error with the problem.
    */
-  retrieve(input: IGetInspection): Promise<IInspection> {
+  retrieve(inspectionId: string): Promise<IInspection> {
     return this.httpClient.makeRequest({
       method: 'GET',
-      path: `/inspection/${input.inspectionId}`,
+      path: `/inspection/${inspectionId}`,
+    });
+  }
+
+  update(
+    inspectionId: string,
+    inspection: Partial<
+      Pick<
+        IIInspectionCommonParamsV2<IProducer, Partial<IConsumer>>,
+        'inputs' | 'consumer' | 'metadata'
+      >
+    >
+  ): Promise<IAPISucessResponse> {
+    const { form } = Helper.buildFormData(inspection);
+
+    return this.httpClient.makeRequest({
+      method: 'PUT',
+      path: `/inspection/${inspectionId}`,
+      body: form,
+      headers: form.getHeaders(),
     });
   }
 

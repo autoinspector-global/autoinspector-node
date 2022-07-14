@@ -47,3 +47,16 @@ export interface ICreateCarInspection
   extends IIInspectionCommonParamsV2<ICreateInspectionProducer> {
   car: ICar;
 }
+
+export type InspectionCompletedBy = 'client' | 'expiration';
+
+export interface IValidation {
+  confidence: number;
+  valid: boolean;
+  _id: string;
+  type: string;
+}
+
+export type InspectionType = 'goods' | 'people' | 'vehicle' | 'machinery' | 'car' | 'moto';
+
+export type ICreateInspectionParamsV2 = IIInspectionCommonParamsV2<ICreateInspectionProducer>;

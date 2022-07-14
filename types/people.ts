@@ -1,9 +1,5 @@
 import { IConfiguration, IConfigurationCommonValidations } from './configuration';
-import {
-  ICreateInspectionProducer,
-  IInspectionCommonParams,
-  IInspectionUpdateCommonParams,
-} from './inspection';
+import { ICreateInspectionProducer, IIInspectionCommonParamsV2 } from './inspection';
 
 export type PeopleType = 'person';
 
@@ -53,8 +49,6 @@ export interface IPeople {
  * Represents the object to be sended when create an inspection of type vehicle.
  */
 export interface ICreatePeopleInspection
-  extends IInspectionCommonParams<ICreateInspectionProducer> {
+  extends IIInspectionCommonParamsV2<ICreateInspectionProducer> {
   people: IPeople;
 }
-
-export interface IUpdatePeopleInspection extends Partial<IInspectionUpdateCommonParams> {}

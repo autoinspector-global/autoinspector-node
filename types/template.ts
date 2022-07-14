@@ -6,7 +6,7 @@ export interface ITemplateFeature {
   feature: string;
 }
 
-export type ITemplateType = 'built-in' | 'created';
+export type TemplateTypes = 'built-in' | 'created';
 
 export type IInputStages = 'create' | 'update';
 
@@ -59,7 +59,7 @@ export interface ITemplateImage {
 }
 
 export interface ITemplate {
-  type: ITemplateType;
+  type: TemplateTypes;
   _id: string;
   inspectionType: InspectionType;
   lastSave: string;
@@ -71,4 +71,5 @@ export interface ITemplate {
 
 export interface ITemplateListInput {
   inspectionType?: InspectionType;
+  type?: TemplateTypes;
 }

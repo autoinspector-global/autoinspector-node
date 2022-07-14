@@ -1,8 +1,4 @@
 import { IConsumer } from './consumer';
-import { GoodsType } from './goods';
-import { MachineryType } from './machinery';
-import { PeopleType } from './people';
-import { VehicleType } from './vehicle';
 
 export type InspectionCompletedBy = 'client' | 'expiration';
 
@@ -13,7 +9,7 @@ export interface IValidation {
   type: string;
 }
 
-export type InspectionType = 'goods' | 'people' | 'vehicle' | 'machinery' | 'car' | 'moto';
+export type InspectionType = 'goods' | 'people' | 'machinery' | 'car' | 'moto' | 'custom';
 
 export type InspectionVeredict = 'approved' | 'disapproved' | 'not_defined' | 'not_provided';
 
@@ -129,32 +125,55 @@ export interface IImage {
 
 export type KindOf = 'easy' | 'deep' | 'damage' | 'full_control';
 
-export interface IInspectionUpdateCommonParams
-  extends Pick<IInspectionCommonParams, 'consumer' | 'metadata'> {
-  productId: string;
-}
-
-export interface IInspectionCommonParams<P = IProducer> {
-  consumer: IConsumer;
-  producer: P;
-  kindOf?: KindOf;
-  mode?: InspectionMode;
-  metadata?: object;
-  access_token?: string;
-}
-
-export interface IInputValue {
+export type IInputFile = {
+  value: string;
+  contentType: string;
+  filename: string;
   label: string;
-  value: string | Buffer;
+};
+
+export type IInputValue = {
+  value: any;
+  label: string;
+  contentType?: string;
+  filename?: string;
+};
+
+export type DeliveryChannels = 'email' | 'wsp';
+
+export type Delivery =
+  | {
+      disabled: true;
+    }
+  | {
+      channel: 'wsp';
+      destination: string;
+      countryISO: string;
+      disabled: false;
+    }
+  | {
+      channel: 'email';
+      destination: string;
+      disabled: false;
+    };
+
+export interface IUpdateInspection extends Pick<IIInspectionCommonParamsV2, 'inputs' | 'consumer'> {
+  inspectionId: string;
 }
 
-export interface IIInspectionCommonParamsV2<P = IProducer> {
-  inputValues: IInputValue[];
-  consumer: IConsumer;
+export interface IInspectionMetadata {
+  [key: string]: string;
+}
+
+export interface IIInspectionCommonParamsV2<P = IProducer, C = IConsumer> {
+  callbackURL?: string;
+  delivery: Delivery;
+  inputs: IInputValue[];
+  consumer: C;
   producer: P;
   templateId: string;
   initialStatus?: 'created' | 'started';
-  metadata?: object;
+  metadata?: IInspectionMetadata;
   access_token?: string;
 }
 
@@ -169,6 +188,7 @@ export interface ICreateInspectionOutput extends ICreateInspectionOutputCommon {
 }
 
 export interface ICreateInspectionOutputCommon {
+  magicLink: string;
   message: string;
   inspectionId: string;
 }
@@ -177,13 +197,10 @@ export interface IGetInspection {
   inspectionId: string;
 }
 
-export type ProductTypes = GoodsType | VehicleType | PeopleType | MachineryType;
-
 export interface IProduct {
   images: IImage[];
   extraImages: string[];
   _id: string;
-  type: ProductTypes;
 }
 
 export interface ICreateInspectionProducer {
@@ -209,7 +226,7 @@ export interface IInspection {
   products: IProduct[];
   _id: string;
   producer: IProducer;
-  metadata: object;
+  metadata: IInspectionMetadata;
 }
 
 export interface IInspectionHandler {}

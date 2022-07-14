@@ -5,17 +5,15 @@ import FormData from 'form-data';
 import { IImageToken } from '../types/inspection';
 
 export class Image {
-  constructor(private readonly httpRef: HTTPClient) {}
+  constructor(private readonly httpClient: HTTPClient) {}
 
-  /**
-   * Generates an image token.
-   * @return {Promise} - Returns a Promise that, when fulfilled, will either return an JSON Object with the requested
-   * data or an Error with the problem.
-   */
-  generateToken(): Promise<IImageToken> {
-    return this.httpRef.makeRequest({
+  generateToken(input: Omit<IUploadImage, 'image' | 'imageToken'>): Promise<IImageToken> {
+    const { productId, ...restImage } = input;
+
+    return this.httpClient.makeRequest({
       method: 'POST',
-      path: `/inspection/image/token`,
+      path: `/inspection/image/token/${productId}`,
+      body: restImage,
     });
   }
 
@@ -30,21 +28,15 @@ export class Image {
    * @return {Promise} - Returns a Promise that, when fulfilled, will either return an JSON Object with the requested
    * data or an Error with the problem.
    */
-  uploadImage(input: IUploadImage): Promise<IAPISucessResponse> {
+  upload(input: IUploadImage): Promise<IAPISucessResponse> {
     const form = new FormData();
 
-    form.append('side', input.side);
-    form.append('image', input.image);
+    const { image, ...restImage } = input;
 
-    if (input.coordinates) {
-      form.append('coordinates', JSON.stringify(input.coordinates));
-    }
+    form.append('image', image);
+    form.append('data', JSON.stringify(restImage));
 
-    if (input.date) {
-      form.append('date', input.date.toISOString());
-    }
-
-    return this.httpRef.makeRequest({
+    return this.httpClient.makeRequest({
       method: 'POST',
       path: `/inspection/image/${input.productId}`,
       body: form,

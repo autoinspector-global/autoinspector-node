@@ -1,5 +1,10 @@
-export interface IProductService {
-  create(input: any): Promise<any>;
+import { ICreateInspectionProducer, IIInspectionCommonParamsV2 } from './inspection';
 
-  update(input: any): Promise<any>;
+export interface IProductMethods<
+  C extends IIInspectionCommonParamsV2<ICreateInspectionProducer>,
+  U extends object = any
+> {
+  create(input: C): Promise<any>;
+
+  update?(productId: string, update: U): Promise<any>;
 }

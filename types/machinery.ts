@@ -1,10 +1,6 @@
 import { Colors } from './colors';
 import { IConfiguration, IConfigurationCommonValidations } from './configuration';
-import {
-  ICreateInspectionProducer,
-  IInspectionCommonParams,
-  IInspectionUpdateCommonParams,
-} from './inspection';
+import { ICreateInspectionProducer, IIInspectionCommonParamsV2 } from './inspection';
 
 export type MachineryPurpose = 'Agrícola' | 'Vial' | 'Industrial';
 
@@ -91,17 +87,9 @@ export interface IMachinery {
    * type: `The type of the machinery.`
    */
   type: MachineryType;
-  /**
-   * configuration: `The validation configuration template to be attached to the machinery.`
-   */
-  configuration?: Partial<IMachineryConfiguration>;
 }
 
 export interface ICreateMachineryInspection
-  extends IInspectionCommonParams<ICreateInspectionProducer> {
+  extends IIInspectionCommonParamsV2<ICreateInspectionProducer> {
   machinery: IMachinery;
-}
-
-export interface IUpdateMachineryInspection extends IInspectionUpdateCommonParams {
-  machinery?: Partial<IMachinery>;
 }
