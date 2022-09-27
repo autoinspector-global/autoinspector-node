@@ -89,6 +89,7 @@ export interface IMachinery {
   type: MachineryType;
 }
 
+
 export interface ICreateMachineryInspection
   extends IIInspectionCommonParamsV2<ICreateInspectionProducer> {
   machinery: IMachinery;

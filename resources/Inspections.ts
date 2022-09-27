@@ -1,10 +1,8 @@
 import { IAPISucessResponse } from '../types/api';
 import { IConsumer } from '../types/consumer';
 import {
-  IFinishInspection,
-  IGetInspection,
-  IIInspectionCommonParamsV2,
-  IInspection,
+  IFinishInspection, IIInspectionCommonParamsV2,
+  IInspection
 } from '../types/inspection';
 import { IPagination, IPaginationResponse } from '../types/pagination';
 import { IProducer } from '../types/producer';

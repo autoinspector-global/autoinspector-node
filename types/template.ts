@@ -40,7 +40,12 @@ export interface ITemplateInput {
   stages: IInputStages;
   type: ITemplateInputTypes;
   label: string;
-  helperMessage?: string;
+  context?: {
+    message: string;
+    locale: {
+      [k: string]: any;
+    };
+  };
   validationSchema: IInputValidationSchema;
 }
 

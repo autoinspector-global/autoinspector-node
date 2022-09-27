@@ -168,6 +168,7 @@ export interface IInspectionMetadata {
 export interface IIInspectionCommonParamsV2<P = IProducer, C = IConsumer> {
   callbackURL?: string;
   delivery: Delivery;
+  locale: 'es_AR' | 'es_MX' | 'es_CL' | 'es_UY' | 'es_PE' | string;
   inputs: IInputValue[];
   consumer: C;
   producer: P;
