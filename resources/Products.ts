@@ -1,3 +1,4 @@
+import { Bike } from './Bike';
 import { Car } from './Car';
 import { Custom } from './Custom';
 import { Goods } from './Goods';
@@ -13,6 +14,7 @@ export class Products {
   public car: Car;
   public moto: Moto;
   public custom: Custom;
+  public bike: Bike;
 
   constructor(httRef: HTTPClient) {
     this.machinery = new Machinery(httRef);
@@ -21,5 +23,6 @@ export class Products {
     this.car = new Car(httRef);
     this.moto = new Moto(httRef);
     this.custom = new Custom(httRef);
+    this.bike = new Bike(httRef);
   }
 }

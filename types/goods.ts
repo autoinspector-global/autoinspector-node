@@ -84,5 +84,5 @@ export interface IGood {
  */
 export interface ICreateGoodsInspection
   extends IIInspectionCommonParamsV2<ICreateInspectionProducer> {
-  goods: IGood[];
+  goods?: Partial<IGood>[];
 }

@@ -45,7 +45,7 @@ export interface ICar {
 
 export interface ICreateCarInspection
   extends IIInspectionCommonParamsV2<ICreateInspectionProducer> {
-  car: ICar;
+  car?: ICar;
 }
 
 export type InspectionCompletedBy = 'client' | 'expiration';
