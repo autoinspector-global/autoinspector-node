@@ -129,7 +129,7 @@ export type IInputFile = {
   value: string;
   contentType: string;
   filename: string;
-  label: string;
+  identifier: string;
 };
 
 export type IInputValue = {

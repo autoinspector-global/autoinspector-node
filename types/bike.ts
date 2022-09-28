@@ -1,4 +1,3 @@
-import { Colors } from './colors';
 import { ICreateInspectionProducer, IIInspectionCommonParamsV2 } from './inspection';
 
 export interface IBike {

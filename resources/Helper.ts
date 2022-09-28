@@ -1,5 +1,5 @@
 import FormData from 'form-data';
-import { lstatSync, readFileSync } from 'fs';
+import { lstatSync } from 'fs';
 import { IFilterInputValuesOutput } from '../types/helper';
 import { IHeaders } from '../types/http';
 import { IInputFile, IInputValue } from '../types/inspection';
@@ -62,7 +62,7 @@ export class Helper {
     const { inputValuesFiles, inputValuesNonFiles } = this.filterInputs(inputs);
 
     for (const inputFile of inputValuesFiles) {
-      form.append(inputFile.label, inputFile.value, {
+      form.append(inputFile.identifier, inputFile.value, {
         contentType: inputFile.contentType,
         filename: inputFile.filename,
       });
