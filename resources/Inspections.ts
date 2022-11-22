@@ -1,9 +1,6 @@
 import { IAPISucessResponse } from '../types/api';
 import { IConsumer } from '../types/consumer';
-import {
-  IFinishInspection, IIInspectionCommonParamsV2,
-  IInspection
-} from '../types/inspection';
+import { IFinishInspection, IInspection, IInspectionCommonParamsV2 } from '../types/inspection';
 import { IPagination, IPaginationResponse } from '../types/pagination';
 import { IProducer } from '../types/producer';
 import { Helper } from './Helper';
@@ -52,7 +49,7 @@ export class Inspections extends Products {
     inspectionId: string,
     inspection: Partial<
       Pick<
-        IIInspectionCommonParamsV2<IProducer, Partial<IConsumer>>,
+        IInspectionCommonParamsV2<IProducer, Partial<IConsumer>>,
         'inputs' | 'consumer' | 'metadata'
       >
     >

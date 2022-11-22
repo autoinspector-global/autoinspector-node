@@ -1,3 +1,8 @@
+import {
+  DEFAULT_MAX_BACKOFF_TIME,
+  DEFAULT_MAX_RETRIES_DEFAULT,
+  DEFAULT_TIMEOUT,
+} from '../constants/http';
 import pkg from '../package.json';
 import { IAutoinspector } from '../types/autoinspector';
 import { HTTPClient } from './HTTPClient';
@@ -35,7 +40,9 @@ export class Autoinspector {
         'x-api-key': input.apikey,
         'User-Agent': 'autoinspector-node-sdk/' + pkg.version,
       },
-      timeout: input.timeout || 80000,
+      maxRetries: input.maxRetries || DEFAULT_MAX_RETRIES_DEFAULT,
+      timeout: input.timeout,
+      maxBackoffTime: input.maxBackoffTime,
       pathPrefix: '/v1',
     });
 

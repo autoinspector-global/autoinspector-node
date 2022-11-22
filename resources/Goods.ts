@@ -1,5 +1,6 @@
 import { ICreateGoodsInspection, IGood } from '../types/goods';
 import { ICreateInspectionGoodsOutput } from '../types/inspection';
+import { generateIdempotencyHeader } from '../utils/idempotency';
 import { Helper } from './Helper';
 import { HTTPClient } from './HTTPClient';
 
@@ -19,18 +20,16 @@ export class Goods {
    * @return {Promise} - Returns a Promise that, when fulfilled, will either return an JSON Object with the requested
    * data or an Error with the problem.
    */
-  create(input: ICreateGoodsInspection): Promise<ICreateInspectionGoodsOutput> {
-    const { form } = Helper.buildFormData(input);
-
+  create(body: ICreateGoodsInspection): Promise<ICreateInspectionGoodsOutput> {
     return this.httpClient.makeRequest({
       method: 'POST',
       path: `/inspection/goods`,
-      body: form,
-      headers: { ...Helper.buildOptionalHeaders(input.access_token), ...form.getHeaders() },
+      headers: generateIdempotencyHeader(),
+      body,
     });
   }
 
-  push(inspectionId: string, goods: IGood[]): Promise<ICreateInspectionGoodsOutput> {
+  addGoods(inspectionId: string, goods: IGood[]): Promise<ICreateInspectionGoodsOutput> {
     return this.httpClient.makeRequest({
       method: 'POST',
       path: `/inspection/goods/${inspectionId}`,

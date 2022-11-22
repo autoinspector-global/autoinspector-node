@@ -1,5 +1,8 @@
-import axios, { AxiosResponse } from 'axios';
+import axios, { AxiosInstance, AxiosResponse } from 'axios';
+import axiosRetry from 'axios-retry';
+import { DEFAULT_TIMEOUT } from '../constants/http';
 import { IHeaders, IHTTPClient, IMakeRequest } from '../types/http';
+import { httpRetryHandler } from '../utils/http-retry-handler';
 
 /**
  * @classdesc Represents the class that implements some HTTP client third library. It's an extra layer for in case if we need to change the implementation be one hundred percent sure we can do it without problems.
@@ -7,23 +10,40 @@ import { IHeaders, IHTTPClient, IMakeRequest } from '../types/http';
  */
 export class HTTPClient {
   private headers: IHeaders = {};
-  private timeout: number;
   private baseURL: string;
   private pathPrefix: string;
+  private instance: AxiosInstance;
+  private timeout: number;
 
   /**
    * Create HTTPClient instance to start making request in another class.
    * @constructor
    * @param input - An object with common parameters that we need to set in the http client third party library.
-   * @param {Object} input.headers - An object with the headers to send in each makeRequest() call.
+   * @param {Object} input'''.headers - An object with the headers to send in each makeRequest() call.
    * @param {Object} input.timeout - The timeout that each request will have. That means, the time in milliseconds maximum that request will wait until cancel it.
    * @param {Object} input.baseURL - The baseURL to make the requests.
    */
   constructor(input: IHTTPClient) {
     this.headers = input.headers;
-    this.timeout = input.timeout;
     this.baseURL = input.baseURL;
+    this.timeout = input.timeout || DEFAULT_TIMEOUT;
     this.pathPrefix = input.pathPrefix;
+
+    const httpClient = axios.create();
+
+    axiosRetry(httpClient, {
+      retryDelay: httpRetryHandler(input),
+      retries: input.maxRetries,
+      retryCondition: (error) => {
+        if (axios.isAxiosError(error)) {
+          return false;
+        }
+
+        return true;
+      },
+    });
+
+    this.instance = httpClient;
   }
 
   /**
@@ -50,7 +70,7 @@ export class HTTPClient {
 
     switch (input.method) {
       case 'GET':
-        return axios
+        return this.instance
           .get(path, options)
           .then((res: AxiosResponse<any>) => {
             return res.data;
@@ -58,7 +78,7 @@ export class HTTPClient {
           .catch((err: any) => this.handleError(err));
 
       case 'PUT':
-        return axios
+        return this.instance
           .put(path, input.body, options)
           .then((res: AxiosResponse<any>) => {
             return res.data;
@@ -66,7 +86,7 @@ export class HTTPClient {
           .catch((err: any) => this.handleError(err));
 
       case 'POST':
-        return axios
+        return this.instance
           .post(path, input.body, options)
           .then((res: AxiosResponse<any>) => {
             return res.data;
@@ -74,7 +94,7 @@ export class HTTPClient {
           .catch((err: any) => this.handleError(err));
 
       case 'DELETE':
-        return axios
+        return this.instance
           .post(path, input.body, options)
           .then((res: AxiosResponse<any>) => {
             return res.data;

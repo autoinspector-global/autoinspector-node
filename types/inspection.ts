@@ -1,4 +1,5 @@
 import { IConsumer } from './consumer';
+import { ITemplateInputTypes } from './template';
 
 export type InspectionCompletedBy = 'client' | 'expiration';
 
@@ -9,7 +10,7 @@ export interface IValidation {
   type: string;
 }
 
-export type InspectionType = 'goods' | 'people' | 'machinery' | 'car' | 'moto' | 'custom';
+export type InspectionType = 'goods' | 'people' | 'machinery' | 'car' | 'moto' | 'custom' | 'bike';
 
 export type InspectionVeredict = 'approved' | 'disapproved' | 'not_defined' | 'not_provided';
 
@@ -132,12 +133,10 @@ export type IInputFile = {
   identifier: string;
 };
 
-export type IInputValue = {
-  value: any;
+export interface IInputValue {
   identifier: string;
-  contentType?: string;
-  filename?: string;
-};
+  value: any;
+}
 
 export type DeliveryChannels = 'email' | 'wsp';
 
@@ -146,7 +145,7 @@ export type Delivery =
       disabled: true;
     }
   | {
-      channel: 'wsp';
+      channel: 'wsp' | 'sms';
       destination: string;
       countryISO: string;
       disabled: false;
@@ -157,7 +156,7 @@ export type Delivery =
       disabled: false;
     };
 
-export interface IUpdateInspection extends Pick<IIInspectionCommonParamsV2, 'inputs' | 'consumer'> {
+export interface IUpdateInspection extends Pick<IInspectionCommonParamsV2, 'inputs' | 'consumer'> {
   inspectionId: string;
 }
 
@@ -165,13 +164,13 @@ export interface IInspectionMetadata {
   [key: string]: string;
 }
 
-export interface IIInspectionCommonParamsV2<P = IProducer, C = IConsumer> {
+export interface IInspectionCommonParamsV2<P = IProducer, C = IConsumer> {
   callbackURL?: string;
   delivery: Delivery;
   locale: 'es_AR' | 'es_MX' | 'es_CL' | 'es_UY' | 'es_PE' | string;
   inputs?: IInputValue[];
-  consumer?: C;
-  producer: P;
+  consumer?: Partial<C>;
+  producer?: P;
   templateId: string;
   initialStatus?: 'created' | 'started';
   metadata?: IInspectionMetadata;
@@ -198,9 +197,27 @@ export interface IGetInspection {
   inspectionId: string;
 }
 
-export interface IProduct {
+export type InspectionTargets = 'product' | 'identity' | 'custom';
+
+export interface IInspectionSection {
   images: IImage[];
-  extraImages: string[];
+  extraImages: {
+    target: InspectionTargets;
+    uploadedAt: string;
+    side: string;
+    _id: string;
+    src: string;
+  }[];
+  inputs: {
+    value?: any;
+    label: string;
+    type: ITemplateInputTypes;
+    identifier: string;
+  }[];
+}
+
+export interface IProduct extends IInspectionSection {
+  type: InspectionType;
   _id: string;
 }
 
@@ -219,7 +236,22 @@ export interface IImageToken {
   token: string;
 }
 
+export interface IInspectionIdentity extends IInspectionSection {
+  address: string;
+  city: string;
+  country: string;
+  state: string;
+  phone: string;
+  sex: string;
+  birthdate: string;
+  email: string;
+  identification: string;
+  lastName: string;
+  firstName: string;
+}
+
 export interface IInspection {
+  testing: boolean;
   veredict: InspectionVeredict;
   type: InspectionType;
   status: InspectionStatus;
@@ -227,7 +259,9 @@ export interface IInspection {
   products: IProduct[];
   _id: string;
   producer: IProducer;
+  custom: IInspectionSection;
   metadata: IInspectionMetadata;
+  identity: IInspectionIdentity;
 }
 
 export interface IInspectionHandler {}

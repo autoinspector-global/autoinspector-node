@@ -17,9 +17,14 @@ export interface IMakeRequest {
   withoutPredefinedHeaders?: boolean;
 }
 
-export interface IHTTPClient {
-  headers: IHeaders;
+export interface IHttpClientOpts {
+  maxBackoffTime: number;
   timeout: number;
+  maxRetries: number;
+}
+
+export interface IHTTPClient extends Partial<IHttpClientOpts> {
+  headers: IHeaders;
   baseURL: string;
   pathPrefix: string;
 }

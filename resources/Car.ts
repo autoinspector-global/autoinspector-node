@@ -2,20 +2,18 @@ import { IUpdateResourceResponse } from '../types/api';
 import { ICar, ICreateCarInspection } from '../types/car';
 import { ICreateInspectionOutput } from '../types/inspection';
 import { IProductMethods } from '../types/productMethods';
-import { Helper } from './Helper';
+import { generateIdempotencyHeader } from '../utils/idempotency';
 import { HTTPClient } from './HTTPClient';
 
 export class Car implements IProductMethods<ICreateCarInspection, Partial<ICar>> {
   constructor(private readonly httpClient: HTTPClient) {}
 
-  async create(input: ICreateCarInspection): Promise<ICreateInspectionOutput> {
-    const { form } = Helper.buildFormData(input);
-
+  async create(body: ICreateCarInspection): Promise<ICreateInspectionOutput> {
     return await this.httpClient.makeRequest({
       method: 'POST',
       path: `/inspection/car`,
-      body: form,
-      headers: form.getHeaders(),
+      headers: generateIdempotencyHeader(),
+      body,
     });
   }
 

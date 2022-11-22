@@ -1,5 +1,5 @@
 import { Colors } from './colors';
-import { ICreateInspectionProducer, IIInspectionCommonParamsV2 } from './inspection';
+import { ICreateInspectionProducer, IInspectionCommonParamsV2 } from './inspection';
 
 export interface ICar {
   /**
@@ -43,9 +43,8 @@ export interface ICar {
   chassis?: string;
 }
 
-export interface ICreateCarInspection
-  extends IIInspectionCommonParamsV2<ICreateInspectionProducer> {
-  car?: ICar;
+export interface ICreateCarInspection extends IInspectionCommonParamsV2<ICreateInspectionProducer> {
+  car?: Partial<ICar>;
 }
 
 export type InspectionCompletedBy = 'client' | 'expiration';
@@ -59,4 +58,4 @@ export interface IValidation {
 
 export type InspectionType = 'goods' | 'people' | 'vehicle' | 'machinery' | 'car' | 'moto';
 
-export type ICreateInspectionParamsV2 = IIInspectionCommonParamsV2<ICreateInspectionProducer>;
+export type ICreateInspectionParamsV2 = IInspectionCommonParamsV2<ICreateInspectionProducer>;

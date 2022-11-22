@@ -8,7 +8,8 @@
     "test": "jest --config ./jest.config.js",
     "build": "tsc",
     "semantic-release": "semantic-release",
-    "commit": "git-cz"
+    "commit": "git-cz",
+    "link": "npm run build && npm link"
   },
   "repository": {
     "type": "git",
@@ -27,9 +28,11 @@
   "homepage": "https://github.com/autoinspector-global/autoinspector-node#readme",
   "dependencies": {
     "axios": "^0.25.0",
+    "axios-retry": "^3.3.1",
     "form-data": "^4.0.0",
     "isomorphic-form-data": "^2.0.0",
-    "typescript": "^4.5.4"
+    "typescript": "^4.5.4",
+    "uuid": "^9.0.0"
   },
   "devDependencies": {
     "@types/jest": "^27.5.0",
@@ -44,8 +47,7 @@
     "eslint-plugin-prettier": "^4.0.0",
     "jest": "^27.5.1",
     "prettier": "^2.5.1",
-    "semantic-release": "^19.0.2",
-    "ts-jest": "^28.0.0"
+    "semantic-release": "^19.0.2"
   },
   "config": {
     "commitizen": {

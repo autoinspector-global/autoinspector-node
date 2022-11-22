@@ -1,5 +1,5 @@
 import { IConfiguration, IConfigurationCommonValidations } from './configuration';
-import { ICreateInspectionProducer, IIInspectionCommonParamsV2 } from './inspection';
+import { ICreateInspectionProducer, IInspectionCommonParamsV2 } from './inspection';
 
 export interface IGoodConfiguration extends IConfigurationCommonValidations {
   /**
@@ -83,6 +83,8 @@ export interface IGood {
  * Represents the object to be sended when create an inspection of type vehicle.
  */
 export interface ICreateGoodsInspection
-  extends IIInspectionCommonParamsV2<ICreateInspectionProducer> {
+  extends IInspectionCommonParamsV2<ICreateInspectionProducer> {
   goods?: Partial<IGood>[];
 }
+
+

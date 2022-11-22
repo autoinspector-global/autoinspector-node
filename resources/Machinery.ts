@@ -2,7 +2,7 @@ import { IUpdateResourceResponse } from '../types/api';
 import { ICreateInspectionOutput } from '../types/inspection';
 import { ICreateMachineryInspection, IMachinery } from '../types/machinery';
 import { IProductMethods } from '../types/productMethods';
-import { Helper } from './Helper';
+import { generateIdempotencyHeader } from '../utils/idempotency';
 import { HTTPClient } from './HTTPClient';
 
 /**
@@ -25,17 +25,12 @@ export class Machinery implements IProductMethods<ICreateMachineryInspection, Pa
    * @return {Promise} - Returns a Promise that, when fulfilled, will either return an JSON Object with the requested
    * data or an Error with the problem.
    */
-  create(input: ICreateMachineryInspection): Promise<ICreateInspectionOutput> {
-    const { form } = Helper.buildFormData(input);
-
+  create(body: ICreateMachineryInspection): Promise<ICreateInspectionOutput> {
     return this.httpClient.makeRequest({
       method: 'POST',
       path: `/inspection/machinery`,
-      body: form,
-      headers: {
-        ...Helper.buildOptionalHeaders(input?.access_token),
-        ...form.getHeaders(),
-      },
+      body,
+      headers: generateIdempotencyHeader(),
     });
   }
 

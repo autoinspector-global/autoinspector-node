@@ -1,4 +1,4 @@
-import { ICreateInspectionProducer, IIInspectionCommonParamsV2 } from './inspection';
+import { ICreateInspectionProducer, IInspectionCommonParamsV2 } from './inspection';
 
 export interface IBike {
   make: string;
@@ -8,6 +8,6 @@ export interface IBike {
 }
 
 export interface ICreateBikeInspection
-  extends IIInspectionCommonParamsV2<ICreateInspectionProducer> {
+  extends IInspectionCommonParamsV2<ICreateInspectionProducer> {
   bike?: Partial<IBike>;
 }

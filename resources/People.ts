@@ -1,7 +1,7 @@
 import { ICreateInspectionOutput } from '../types/inspection';
 import { ICreatePeopleInspection } from '../types/people';
 import { IProductMethods } from '../types/productMethods';
-import { Helper } from './Helper';
+import { generateIdempotencyHeader } from '../utils/idempotency';
 import { HTTPClient } from './HTTPClient';
 
 export class People implements IProductMethods<ICreatePeopleInspection> {
@@ -19,17 +19,12 @@ export class People implements IProductMethods<ICreatePeopleInspection> {
    * @return {Promise} - Returns a Promise that, when fulfilled, will either return an JSON Object with the requested
    * data or an Error with the problem.
    */
-  create(input: ICreatePeopleInspection): Promise<ICreateInspectionOutput> {
-    const { form } = Helper.buildFormData(input);
-
+  create(body: ICreatePeopleInspection): Promise<ICreateInspectionOutput> {
     return this.httpClient.makeRequest({
       method: 'POST',
       path: `/inspection/people`,
-      body: form,
-      headers: {
-        ...Helper.buildOptionalHeaders(input.access_token),
-        ...form.getHeaders(),
-      },
+      headers: generateIdempotencyHeader(),
+      body,
     });
   }
 }

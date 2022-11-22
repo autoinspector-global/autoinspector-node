@@ -1,4 +1,4 @@
-export type Sex = 0 | 1 | 2 | 9;
+export type Sex = 'male' | 'female' | 'not_applicable';
 
 export interface IConsumer {
   firstName: string;

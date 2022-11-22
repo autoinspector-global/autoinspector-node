@@ -1,6 +1,7 @@
+import { IHttpClientOpts } from './http';
 import { IOAuth20Credentials } from './oauth20';
 
-export interface IAutoinspector {
+export interface IAutoinspector extends Partial<IHttpClientOpts> {
   /**
    * The apikey for authenticate to Autoinspector API.
    */

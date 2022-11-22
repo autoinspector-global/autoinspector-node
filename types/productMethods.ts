@@ -1,7 +1,7 @@
-import { ICreateInspectionProducer, IIInspectionCommonParamsV2 } from './inspection';
+import { ICreateInspectionProducer, IInspectionCommonParamsV2 } from './inspection';
 
 export interface IProductMethods<
-  C extends IIInspectionCommonParamsV2<ICreateInspectionProducer>,
+  C extends IInspectionCommonParamsV2<ICreateInspectionProducer>,
   U extends object = any
 > {
   create(input: C): Promise<any>;
