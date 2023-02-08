@@ -2,6 +2,7 @@ import { IConsumer } from './consumer';
 import {
   IImageDamage,
   InspectionStatus,
+  InspectionType,
   InspectionVeredict,
   IProduct,
   IValidation,
@@ -22,6 +23,8 @@ export interface IWebhookProducer {
 export interface IWebhookEvent<P, E extends IWebhookEvents> {
   event: E;
   payload: {
+    type: InspectionType;
+    _id: string;
     producer: IWebhookProducer;
     metadata: {
       [key: string]: string;
