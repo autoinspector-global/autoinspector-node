@@ -250,7 +250,13 @@ export interface IInspectionIdentity extends IInspectionSection {
   firstName: string;
 }
 
+export type InspectionTemplateTypes = 'built-in' | 'created';
+
 export interface IInspection {
+  template: {
+    name: string;
+    type: InspectionTemplateTypes;
+  };
   testing: boolean;
   veredict: InspectionVeredict;
   type: InspectionType;
