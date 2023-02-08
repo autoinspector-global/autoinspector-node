@@ -80,6 +80,11 @@ export interface IWebhookInspectionBlocked
 export interface IWebhookInspectionCompleted
   extends IWebhookEvent<
     {
+      template: {
+        name: string;
+        _id: string;
+        type: string;
+      };
       status: 'completed';
       products: IProduct[];
       identity: IConsumer & {
@@ -95,7 +100,7 @@ export interface IWebhookInspectionCompleted
     'inspection_completed'
   > {}
 
-export type IWebhook =
+export type AutoinspectorWebhook =
   | IWebhookInspectionStarted
   | IWebhookImageProcessed
   | IWebhookInspectionBlocked

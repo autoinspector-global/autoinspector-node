@@ -1,5 +1,5 @@
 import { createHmac } from 'crypto';
-import { IWebhook } from '../types/webhooks';
+import { AutoinspectorWebhook } from '../types/webhooks';
 
 class InvalidRequestSignature extends Error {
   constructor() {
@@ -9,7 +9,11 @@ class InvalidRequestSignature extends Error {
 }
 
 export class Webhooks {
-  public constructEvent(body: any, requestSignature: string, webhookSecret: string): IWebhook {
+  public constructEvent(
+    body: any,
+    requestSignature: string,
+    webhookSecret: string
+  ): AutoinspectorWebhook {
     const realDigest = createHmac('sha256', webhookSecret).update(body).digest('hex');
 
     if (requestSignature !== realDigest) {

@@ -12,6 +12,8 @@ import { OAuth } from './OAuth';
 import { Template } from './Template';
 import { Webhooks } from './Webhooks';
 
+export * from '../types/webhooks';
+
 /**
  * @classdesc Represents the Autoinspector SDK. It allows the user to make every call to the API with a single function.
  * @class
