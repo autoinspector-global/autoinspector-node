@@ -199,6 +199,13 @@ export interface IGetInspection {
 
 export type InspectionTargets = 'product' | 'identity' | 'custom';
 
+export interface IInspectionInput {
+  value?: any;
+  label: string;
+  type: ITemplateInputTypes;
+  identifier: string;
+}
+
 export interface IInspectionSection {
   images: IImage[];
   extraImages: {
@@ -208,12 +215,7 @@ export interface IInspectionSection {
     _id: string;
     src: string;
   }[];
-  inputs: {
-    value?: any;
-    label: string;
-    type: ITemplateInputTypes;
-    identifier: string;
-  }[];
+  inputs: IInspectionInput[];
 }
 
 export interface IProduct extends IInspectionSection {

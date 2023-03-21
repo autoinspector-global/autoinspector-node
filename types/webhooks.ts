@@ -1,6 +1,7 @@
 import { IConsumer } from './consumer';
 import {
   IImageDamage,
+  IInspectionInput,
   InspectionStatus,
   InspectionType,
   InspectionVeredict,
@@ -92,9 +93,11 @@ export interface IWebhookInspectionCompleted
       products: IProduct[];
       identity: IConsumer & {
         images: IWebhookImage[];
+        inputs: IInspectionInput[];
         extraImages: IWebhookImage[];
       };
       custom: {
+        inputs: IInspectionInput[];
         images: IWebhookImage[];
         extraImages: IWebhookImage[];
       };
