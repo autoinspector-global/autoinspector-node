@@ -75,6 +75,7 @@ export class Inspections extends Products {
    * @param {String} input.status - Represents the status that inspections retrieved should have.
    * @param {String} input.type - Represents the type of the inspection.
    * @param {String} input.consumerIdentification - Identification value of target consumer
+   * @param {String} input.plate - Car License Plate parameter to filter inspections
    * @return {Promise} - Returns a Promise that, when fulfilled, will either return an JSON Object with the requested
    * data or an Error with the problem.
    */

@@ -1,6 +1,7 @@
 import { InspectionStatus, InspectionType, InspectionVeredict } from './inspection';
 
 export interface IPagination {
+  plate:string
   page: number;
   limit: number;
   status: InspectionStatus;
