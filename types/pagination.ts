@@ -6,6 +6,7 @@ export interface IPagination {
   status: InspectionStatus;
   type: InspectionType;
   veredict: InspectionVeredict;
+  consumerIdentification:string
 }
 
 export interface IPaginationResponse<R = any> {

@@ -74,6 +74,7 @@ export class Inspections extends Products {
    * @param {Number} input.limit - Represents the limit of the quantity of records that you want to retrieve for page.
    * @param {String} input.status - Represents the status that inspections retrieved should have.
    * @param {String} input.type - Represents the type of the inspection.
+   * @param {String} input.consumerIdentification - Identification value of target consumer
    * @return {Promise} - Returns a Promise that, when fulfilled, will either return an JSON Object with the requested
    * data or an Error with the problem.
    */
