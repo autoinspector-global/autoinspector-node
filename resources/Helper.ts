@@ -1,3 +1,4 @@
+//@ts-ignore
 import FormData from 'form-data';
 import { lstatSync } from 'fs';
 import { IFilterInputValuesOutput } from '../types/helper';

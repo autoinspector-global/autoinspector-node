@@ -14,7 +14,8 @@ export type IWebhookEvents =
   | 'image_processed'
   | 'inspection_blocked'
   | 'inspection_completed'
-  | 'inspection_reviewed';
+  | 'inspection_reviewed'
+  | 'inspection_created';
 
 export interface IWebhookProducer {
   companyId: string;
@@ -43,6 +44,14 @@ export interface IWebhookImage {
   validations: IValidation[];
   damages?: IImageDamage[];
 }
+
+export interface IWebhookInspectionCreated
+  extends IWebhookEvent<
+    {
+      status: InspectionStatus;
+    },
+    'inspection_created'
+  > {}
 
 export interface IWebhookInspectionStarted
   extends IWebhookEvent<
@@ -110,4 +119,5 @@ export type AutoinspectorWebhook =
   | IWebhookInspectionStarted
   | IWebhookImageProcessed
   | IWebhookInspectionBlocked
-  | IWebhookInspectionCompleted;
+  | IWebhookInspectionCompleted
+  | IWebhookInspectionCreated;

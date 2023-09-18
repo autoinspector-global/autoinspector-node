@@ -52,6 +52,6 @@ export class Autoinspector {
     this.inspections = new Inspections(httpClient);
     this.images = new Image(httpClient);
     this.templates = new Template(httpClient);
-    this.webhooks = new Webhooks();
+    this.webhooks = new Webhooks(httpClient);
   }
 }

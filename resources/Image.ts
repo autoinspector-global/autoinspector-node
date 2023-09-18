@@ -1,6 +1,7 @@
 import { IAPISucessResponse } from '../types/api';
 import { IUploadImage } from '../types/image';
 import { HTTPClient } from './HTTPClient';
+//@ts-ignore
 import FormData from 'form-data';
 import { IImageToken } from '../types/inspection';
 

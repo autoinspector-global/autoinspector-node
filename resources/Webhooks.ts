@@ -1,5 +1,6 @@
 import { createHmac } from 'crypto';
-import { AutoinspectorWebhook } from '../types/webhooks';
+import { AutoinspectorWebhook, IWebhookEvents } from '../types/webhooks';
+import { HTTPClient } from './HTTPClient';
 
 class InvalidRequestSignature extends Error {
   constructor() {
@@ -9,6 +10,8 @@ class InvalidRequestSignature extends Error {
 }
 
 export class Webhooks {
+  constructor(private readonly httpClient: HTTPClient) {}
+
   public constructEvent(
     body: any,
     requestSignature: string,
@@ -21,5 +24,15 @@ export class Webhooks {
     }
 
     return JSON.parse((body as Buffer).toString('utf-8'));
+  }
+
+  public async create(input: { events: IWebhookEvents[]; endpoint: string }): Promise<{
+    _id: string;
+  }> {
+    return await this.httpClient.makeRequest({
+      method: 'POST',
+      path: '/notification/webhook',
+      body: input,
+    });
   }
 }
