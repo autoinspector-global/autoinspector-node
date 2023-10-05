@@ -1,13 +1,14 @@
 import { InspectionStatus, InspectionType, InspectionVeredict } from './inspection';
 
 export interface IPagination {
-  plate:string
+  plate: string;
   page: number;
   limit: number;
   status: InspectionStatus;
   type: InspectionType;
   veredict: InspectionVeredict;
-  consumerIdentification:string
+  consumerIdentification: string;
+  templateId?: string;
 }
 
 export interface IPaginationResponse<R = any> {
