@@ -1,5 +1,6 @@
 import { Bike } from './Bike';
 import { Car } from './Car';
+import { Cellphone } from './Cellphone';
 import { Custom } from './Custom';
 import { Goods } from './Goods';
 import { HTTPClient } from './HTTPClient';
@@ -15,14 +16,16 @@ export class Products {
   public moto: Moto;
   public custom: Custom;
   public bike: Bike;
+  public cellphone: Cellphone;
 
-  constructor(httRef: HTTPClient) {
-    this.machinery = new Machinery(httRef);
-    this.people = new People(httRef);
-    this.goods = new Goods(httRef);
-    this.car = new Car(httRef);
-    this.moto = new Moto(httRef);
-    this.custom = new Custom(httRef);
-    this.bike = new Bike(httRef);
+  constructor(httpRef: HTTPClient) {
+    this.machinery = new Machinery(httpRef);
+    this.people = new People(httpRef);
+    this.goods = new Goods(httpRef);
+    this.car = new Car(httpRef);
+    this.moto = new Moto(httpRef);
+    this.custom = new Custom(httpRef);
+    this.bike = new Bike(httpRef);
+    this.cellphone = new Cellphone(httpRef);
   }
 }
