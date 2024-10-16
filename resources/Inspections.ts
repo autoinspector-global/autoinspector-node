@@ -87,4 +87,44 @@ export class Inspections extends Products {
       params: input,
     });
   }
+
+  createReportRequest(
+    inspectionId: string,
+    data?: {
+      callbackURL?: string;
+    }
+  ): Promise<{ _id: string }> {
+    return this.httpClient.makeRequest({
+      method: 'POST',
+      path: `/inspection/${inspectionId}/report/request`,
+      body: data,
+    });
+  }
+
+  listReportRequests(inspectionId: string): Promise<{
+    reportRequests: {
+      inspectionId: string;
+      companyId: string;
+      status: 'completed' | 'failed' | 'processing' | 'pending';
+      callbackURL?: string;
+      result?: {
+        url: string;
+      };
+      processingAt?: Date;
+      completedAt?: Date;
+      failedAt?: Date;
+    }[];
+  }> {
+    return this.httpClient.makeRequest({
+      method: 'GET',
+      path: `/inspection/${inspectionId}/report/request`,
+    });
+  }
+
+  retrieveReportRequest(inspectionId: string, reportRequestId: string): Promise<{ _id: string }> {
+    return this.httpClient.makeRequest({
+      method: 'GET',
+      path: `/inspection/${inspectionId}/report/request/${reportRequestId}`,
+    });
+  }
 }
