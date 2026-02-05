@@ -273,3 +273,21 @@ export interface IInspection {
 }
 
 export interface IInspectionHandler {}
+
+export type PresignInspectionDetailIdentityType = 'user' | 'internalId';
+
+export interface IPresignInspectionDetailIdentity {
+  type: PresignInspectionDetailIdentityType;
+  id: string;
+}
+
+export interface IPresignInspectionDetailBody {
+  expiresInSeconds?: number;
+  identity?: IPresignInspectionDetailIdentity;
+}
+
+export interface IPresignInspectionDetailResponse {
+  accessToken: string;
+  expiresAt: string;
+  url: string;
+}

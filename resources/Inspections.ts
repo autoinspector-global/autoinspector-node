@@ -1,6 +1,12 @@
 import { IAPISucessResponse } from '../types/api';
 import { IConsumer } from '../types/consumer';
-import { IFinishInspection, IInspection, IInspectionCommonParamsV2 } from '../types/inspection';
+import {
+  IFinishInspection,
+  IInspection,
+  IInspectionCommonParamsV2,
+  IPresignInspectionDetailBody,
+  IPresignInspectionDetailResponse,
+} from '../types/inspection';
 import { IPagination, IPaginationResponse } from '../types/pagination';
 import { IProducer } from '../types/producer';
 import { buildOAuthHeader } from '../utils/build-oauth-header';
@@ -125,6 +131,27 @@ export class Inspections extends Products {
     return this.httpClient.makeRequest({
       method: 'GET',
       path: `/inspection/${inspectionId}/report/request/${reportRequestId}`,
+    });
+  }
+
+  /**
+   * Presign access to an inspection detail.
+   * @param {String} inspectionId - Represents the id of the inspection that you want to presign.
+   * @param {Object} data - Optional body for presign options.
+   * @param {Number} data.expiresInSeconds - Expiration in seconds for the presign token.
+   * @param {Object} data.identity - Optional identity to bind a user session to the inspection detail.
+   * @param {String} data.identity.type - Identity type.
+   * @param {String} data.identity.id - Identity id.
+   * @return {Promise} - Returns a Promise with the presigned access token and url.
+   */
+  presignDetail(
+    inspectionId: string,
+    data?: IPresignInspectionDetailBody
+  ): Promise<IPresignInspectionDetailResponse> {
+    return this.httpClient.makeRequest({
+      method: 'POST',
+      path: `/inspection/presign/detail/${inspectionId}`,
+      body: data,
     });
   }
 }
